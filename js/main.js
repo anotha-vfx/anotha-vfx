@@ -20,7 +20,11 @@ document.documentElement.classList.add('js-loaded');
    play/pause + mute/unmute buttons using the Vimeo Player SDK.
    Used by the showreel, portrait reels, and project lightbox.
    ================================================================ */
-function buildVimeoEmbed(vimeoId) {
+/* landscape = true  → lock landscape when going fullscreen (showreel, project clips)
+   landscape = false → no orientation lock (portrait reel cards)              */
+function buildVimeoEmbed(vimeoId, landscape) {
+  if (landscape === undefined) landscape = true;
+
   var wrap = document.createElement('div');
   wrap.className = 'vc-wrap';
 
@@ -42,6 +46,10 @@ function buildVimeoEmbed(vimeoId) {
     '<button class="vc-btn vc-mute-btn" aria-label="Mute / Unmute">' +
       '<svg class="icon-vol" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
       '<svg class="icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 19L19 20.27 20.27 19 5.27 4 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>' +
+    '</button>' +
+    '<button class="vc-btn vc-fs-btn" aria-label="Fullscreen">' +
+      '<svg class="icon-fs" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>' +
+      '<svg class="icon-fs-exit" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>' +
     '</button>';
   wrap.appendChild(bar);
 
@@ -51,6 +59,7 @@ function buildVimeoEmbed(vimeoId) {
     var player  = new Vimeo.Player(f);
     var playBtn = bar.querySelector('.vc-play-btn');
     var muteBtn = bar.querySelector('.vc-mute-btn');
+    var fsBtn   = bar.querySelector('.vc-fs-btn');
     var iPlay   = bar.querySelector('.icon-play');
     var iPause  = bar.querySelector('.icon-pause');
     var iVol    = bar.querySelector('.icon-vol');
@@ -63,6 +72,42 @@ function buildVimeoEmbed(vimeoId) {
     muteBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       player.getMuted().then(function(m) { player.setMuted(!m); });
+    });
+
+    /* Fullscreen toggle + optional landscape lock */
+    var iFS = bar.querySelector('.icon-fs');
+    var iFSExit = bar.querySelector('.icon-fs-exit');
+
+    function onFSChange() {
+      var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      iFS.style.display     = isFS ? 'none' : '';
+      iFSExit.style.display = isFS ? ''     : 'none';
+      if (!isFS) {
+        if (screen.orientation && screen.orientation.unlock) {
+          screen.orientation.unlock();
+        }
+      }
+    }
+    document.addEventListener('fullscreenchange',       onFSChange);
+    document.addEventListener('webkitfullscreenchange', onFSChange);
+
+    fsBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (isFS) {
+        /* Exit fullscreen */
+        var exitFS = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exitFS) exitFS.call(document);
+      } else {
+        /* Enter fullscreen */
+        var req = wrap.requestFullscreen || wrap.webkitRequestFullscreen;
+        if (!req) return;
+        req.call(wrap).then(function() {
+          if (landscape && screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(function() {});
+          }
+        }).catch(function() {});
+      }
     });
 
     player.on('play',  function() { iPlay.style.display = 'none'; iPause.style.display = ''; });
@@ -163,6 +208,21 @@ document.addEventListener('DOMContentLoaded', () => {
       cursor.style.left = mx + 'px';
       cursor.style.top  = my + 'px';
     });
+
+    /* Keep cursor visible in fullscreen — move elements into/out of the
+       fullscreen element so they remain in the visible subtree.          */
+    function handleFSChange() {
+      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (fsEl) {
+        fsEl.appendChild(cursor);
+        fsEl.appendChild(ring);
+      } else {
+        document.body.appendChild(cursor);
+        document.body.appendChild(ring);
+      }
+    }
+    document.addEventListener('fullscreenchange',       handleFSChange);
+    document.addEventListener('webkitfullscreenchange', handleFSChange);
 
     /* Ring trails slightly behind */
     (function rafLoop() {
@@ -331,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.classList.add('playing');
 
       if (vimeoId) {
-        card.appendChild(buildVimeoEmbed(vimeoId));
+        card.appendChild(buildVimeoEmbed(vimeoId, false)); /* portrait reel — no rotation */
       } else {
         const f = document.createElement('iframe');
         f.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;

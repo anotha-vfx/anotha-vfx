@@ -320,6 +320,10 @@ body::after {
   opacity: 0;
   animation: fadeIn .8s 2.2s var(--ease-out) forwards;
 }
+.hero-stats {
+  display: flex; flex-direction: column;
+  gap: 2rem; align-items: flex-end;
+}
 .hero-stat { text-align: right; }
 .hero-stat-val {
   font-family: 'Bebas Neue', sans-serif;
@@ -1254,12 +1258,34 @@ a.ci-val:hover { color: var(--gold); }
 
 /* ── Phone  ≤ 600px ─────────────────────────────────────────────── */
 @media (max-width: 600px) {
-  /* Hero — center content so top half isn't empty on portrait phones */
+  /* Hero — vertically centered with nav clearance */
   .hero { justify-content: center; }
   .hero-content {
-    padding-top: calc(var(--nav-h) + 1.5rem);
-    padding-bottom: 3rem;
+    padding-top: calc(var(--nav-h) + 1rem);
+    padding-bottom: 2rem;
+    gap: 1.2rem;
   }
+
+  /* hero-right: column on mobile — button on top, stats row below */
+  .hero-right {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    gap: .9rem;
+  }
+  .hero-stats {
+    flex-direction: row;
+    gap: 1.6rem;
+    align-items: flex-end;
+  }
+  .hero-stat     { text-align: left; }
+  .hero-stat-val { font-size: clamp(1.4rem, 5vw, 1.8rem); }
+  .hero-stat-label { font-size: .48rem; }
+
+  /* Hire Anotha button — slightly smaller on mobile */
+  .hero-cta-btn  { font-size: .82rem; padding: .6rem 1.3rem; }
+
   .hero-name      { font-size: clamp(2.6rem, 11vw, 5.5rem); }
   .hero-name-alias{ font-size: 0.28em; }
   .hero-ambient   { font-size: clamp(6rem, 20vw, 10rem); opacity: .03; }
@@ -1269,7 +1295,6 @@ a.ci-val:hover { color: var(--gold); }
   .hero-tagline   { font-size: .8rem; }
   .hero-chips     { gap: .3rem; margin-top: .9rem; }
   .hero-chip      { font-size: .5rem; padding: .24rem .52rem; }
-  .hero-stat-val  { font-size: clamp(1.6rem, 5.5vw, 2.2rem); }
 
   /* Page headings */
   .page-title  { font-size: clamp(3.5rem, 17vw, 6rem); }
@@ -1371,6 +1396,8 @@ a.ci-val:hover { color: var(--gold); }
   border-color: rgba(196,164,114,.65);
 }
 .vc-btn svg { display: block; pointer-events: none; }
+/* Fullscreen button pushed to the far right */
+.vc-fs-btn { margin-left: auto; }
 
 /* ================================================================
    PROJECT VIDEO LIGHTBOX
