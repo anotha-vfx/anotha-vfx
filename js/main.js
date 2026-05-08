@@ -21,25 +21,48 @@ document.documentElement.classList.add('js-loaded');
    Used by the showreel, portrait reels, and project lightbox.
    ================================================================ */
 /* ── Global Vimeo player registry ──────────────────────────────────
-   All active players register here so we can:
+   Stores { player, iframe } for every active embed so we can:
    • Pause every other player when a new one starts
-   • Pause all players when the user backgrounds the app              */
+   • Pause all players when the user leaves the browser             */
 var vcPlayers = [];
 
-function pauseAllPlayers(except) {
-  /* Clean up players whose iframes were removed from the DOM */
-  vcPlayers = vcPlayers.filter(function(p) {
-    try { return p.element && p.element.isConnected; } catch(e) { return false; }
+/* Send pause both via SDK and direct postMessage (more reliable on
+   mobile where SDK messages can be dropped during page suspension)  */
+function forceStopEntry(entry) {
+  try { entry.player.pause().catch(function() {}); } catch(e) {}
+  try {
+    entry.iframe.contentWindow.postMessage(
+      JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com'
+    );
+  } catch(e) {}
+}
+
+function pauseAllPlayers(exceptPlayer) {
+  /* Drop entries whose iframes were removed from the DOM */
+  vcPlayers = vcPlayers.filter(function(e) {
+    try { return e.iframe && e.iframe.isConnected; } catch(_) { return false; }
   });
-  vcPlayers.forEach(function(p) {
-    if (p !== except) p.pause().catch(function() {});
+  vcPlayers.forEach(function(e) {
+    if (e.player !== exceptPlayer) forceStopEntry(e);
   });
 }
 
-/* Pause everything when user switches app / goes to home screen */
-document.addEventListener('visibilitychange', function() {
-  if (document.hidden) pauseAllPlayers(null);
-});
+/* Stop all audio when user presses home / switches app.
+   Both events used: visibilitychange (standard) + pagehide (iOS) */
+function onPageHide() {
+  vcPlayers.forEach(forceStopEntry);
+  /* Catch any Vimeo iframes not yet in our registry (e.g. YouTube
+     fallbacks are plain iframes — skip, but cover late-registered ones) */
+  document.querySelectorAll('iframe[src*="vimeo.com"]').forEach(function(f) {
+    try {
+      f.contentWindow.postMessage(
+        JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com'
+      );
+    } catch(e) {}
+  });
+}
+document.addEventListener('visibilitychange', function() { if (document.hidden) onPageHide(); });
+document.addEventListener('pagehide', onPageHide);
 
 /* ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── */
 
@@ -79,8 +102,10 @@ function buildVimeoEmbed(vimeoId, landscape) {
   /* Wire up controls after a short delay so the iframe is in the DOM */
   setTimeout(function() {
     if (!window.Vimeo) return;
-    var player  = new Vimeo.Player(f);
-    vcPlayers.push(player);   /* register in global registry */
+    var player = new Vimeo.Player(f);
+    /* Register and immediately stop every other active video */
+    vcPlayers.push({ player: player, iframe: f });
+    pauseAllPlayers(player);
 
     var playBtn = bar.querySelector('.vc-play-btn');
     var muteBtn = bar.querySelector('.vc-mute-btn');
@@ -153,7 +178,7 @@ function buildVimeoEmbed(vimeoId, landscape) {
     player.on('play',  function() {
       iPlay.style.display = 'none';
       iPause.style.display = '';
-      pauseAllPlayers(player);   /* stop every other active video */
+      pauseAllPlayers(player); /* belt-and-suspenders: stop others on play too */
     });
     player.on('pause', function() { iPlay.style.display = '';     iPause.style.display = 'none'; });
     player.on('volumechange', function(d) {
