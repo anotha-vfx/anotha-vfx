@@ -74,40 +74,55 @@ function buildVimeoEmbed(vimeoId, landscape) {
       player.getMuted().then(function(m) { player.setMuted(!m); });
     });
 
-    /* Fullscreen toggle + optional landscape lock */
-    var iFS = bar.querySelector('.icon-fs');
+    /* Fullscreen toggle — uses Vimeo SDK (works on iOS too) with native fallback */
+    var iFS    = bar.querySelector('.icon-fs');
     var iFSExit = bar.querySelector('.icon-fs-exit');
 
-    function onFSChange() {
+    function lockLandscape() {
+      if (landscape && screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(function() {});
+      }
+    }
+    function unlockOrientation() {
+      if (screen.orientation && screen.orientation.unlock) {
+        screen.orientation.unlock();
+      }
+    }
+
+    /* Vimeo SDK fullscreen change — updates icon + unlocks orientation */
+    player.on('fullscreenchange', function(data) {
+      iFS.style.display     = data.fullscreen ? 'none' : '';
+      iFSExit.style.display = data.fullscreen ? ''     : 'none';
+      if (!data.fullscreen) unlockOrientation();
+    });
+
+    /* Also catch native fullscreen exits (e.g. ESC key) */
+    function onNativeFSChange() {
       var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
       iFS.style.display     = isFS ? 'none' : '';
       iFSExit.style.display = isFS ? ''     : 'none';
-      if (!isFS) {
-        if (screen.orientation && screen.orientation.unlock) {
-          screen.orientation.unlock();
-        }
-      }
+      if (!isFS) unlockOrientation();
     }
-    document.addEventListener('fullscreenchange',       onFSChange);
-    document.addEventListener('webkitfullscreenchange', onFSChange);
+    document.addEventListener('fullscreenchange',       onNativeFSChange);
+    document.addEventListener('webkitfullscreenchange', onNativeFSChange);
 
     fsBtn.addEventListener('click', function(e) {
       e.stopPropagation();
-      var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
-      if (isFS) {
-        /* Exit fullscreen */
-        var exitFS = document.exitFullscreen || document.webkitExitFullscreen;
-        if (exitFS) exitFS.call(document);
-      } else {
-        /* Enter fullscreen */
-        var req = wrap.requestFullscreen || wrap.webkitRequestFullscreen;
-        if (!req) return;
-        req.call(wrap).then(function() {
-          if (landscape && screen.orientation && screen.orientation.lock) {
-            screen.orientation.lock('landscape').catch(function() {});
-          }
-        }).catch(function() {});
-      }
+      player.getFullscreen().then(function(isFS) {
+        if (isFS) {
+          /* Exit — try Vimeo SDK first, then native */
+          player.exitFullscreen().catch(function() {
+            var exit = document.exitFullscreen || document.webkitExitFullscreen;
+            if (exit) exit.call(document);
+          });
+        } else {
+          /* Enter — try Vimeo SDK first (works on iOS), then native wrap */
+          player.requestFullscreen().then(lockLandscape).catch(function() {
+            var req = wrap.requestFullscreen || wrap.webkitRequestFullscreen;
+            if (req) req.call(wrap).then(lockLandscape).catch(function() {});
+          });
+        }
+      });
     });
 
     player.on('play',  function() { iPlay.style.display = 'none'; iPause.style.display = ''; });

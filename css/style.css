@@ -1381,6 +1381,8 @@ a.ci-val:hover { color: var(--gold); }
   transition: opacity .28s;
 }
 .vc-wrap:hover .vc-bar { opacity: 1; }
+/* Touch devices have no hover — always show controls at full opacity */
+@media (pointer: coarse) { .vc-bar { opacity: 1; } }
 .vc-btn {
   width: 36px; height: 36px;
   border-radius: 50%;
