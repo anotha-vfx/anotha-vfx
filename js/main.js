@@ -20,6 +20,29 @@ document.documentElement.classList.add('js-loaded');
    play/pause + mute/unmute buttons using the Vimeo Player SDK.
    Used by the showreel, portrait reels, and project lightbox.
    ================================================================ */
+/* ── Global Vimeo player registry ──────────────────────────────────
+   All active players register here so we can:
+   • Pause every other player when a new one starts
+   • Pause all players when the user backgrounds the app              */
+var vcPlayers = [];
+
+function pauseAllPlayers(except) {
+  /* Clean up players whose iframes were removed from the DOM */
+  vcPlayers = vcPlayers.filter(function(p) {
+    try { return p.element && p.element.isConnected; } catch(e) { return false; }
+  });
+  vcPlayers.forEach(function(p) {
+    if (p !== except) p.pause().catch(function() {});
+  });
+}
+
+/* Pause everything when user switches app / goes to home screen */
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) pauseAllPlayers(null);
+});
+
+/* ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── */
+
 /* landscape = true  → lock landscape when going fullscreen (showreel, project clips)
    landscape = false → no orientation lock (portrait reel cards)              */
 function buildVimeoEmbed(vimeoId, landscape) {
@@ -57,6 +80,8 @@ function buildVimeoEmbed(vimeoId, landscape) {
   setTimeout(function() {
     if (!window.Vimeo) return;
     var player  = new Vimeo.Player(f);
+    vcPlayers.push(player);   /* register in global registry */
+
     var playBtn = bar.querySelector('.vc-play-btn');
     var muteBtn = bar.querySelector('.vc-mute-btn');
     var fsBtn   = bar.querySelector('.vc-fs-btn');
@@ -125,7 +150,11 @@ function buildVimeoEmbed(vimeoId, landscape) {
       });
     });
 
-    player.on('play',  function() { iPlay.style.display = 'none'; iPause.style.display = ''; });
+    player.on('play',  function() {
+      iPlay.style.display = 'none';
+      iPause.style.display = '';
+      pauseAllPlayers(player);   /* stop every other active video */
+    });
     player.on('pause', function() { iPlay.style.display = '';     iPause.style.display = 'none'; });
     player.on('volumechange', function(d) {
       var off = d.muted || d.volume === 0;
