@@ -1625,6 +1625,188 @@ a.ci-val:hover { color: var(--gold); }
   transform: rotate(90deg);
 }
 
+/* ================================================================
+   DYNAMIC ENHANCEMENTS — CSS
+   ================================================================ */
+
+/* ── Custom scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar           { width: 3px; }
+::-webkit-scrollbar-track     { background: transparent; }
+::-webkit-scrollbar-thumb     { background: var(--border-2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ── Scroll Progress Bar ──────────────────────────────────────── */
+#scrollProgress {
+  position: fixed;
+  top: 0; left: 0; height: 2px; width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-bright), var(--gold));
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(201,169,110,.55);
+  transition: width .12s linear;
+}
+
+/* cursor-spotlight removed */
+
+/* ── Page Transition Overlay ──────────────────────────────────── */
+.page-transition {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* hero-name glitch removed */
+
+/* ── Side Section Indicator ───────────────────────────────────── */
+#sideIndicator {
+  position: fixed;
+  right: clamp(.9rem, 1.8vw, 1.8rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: flex; flex-direction: column; align-items: center; gap: .45rem;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn .7s 3s forwards;
+}
+.si-label {
+  font-size: .42rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--text-dim);
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+}
+.si-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: .9rem; letter-spacing: .18em;
+  color: var(--text-muted);
+  transition: opacity .2s, transform .2s;
+}
+.si-num-exit  { opacity: 0; transform: translateY(-6px); }
+.si-num-enter { animation: siEnter .3s var(--ease-out) forwards; }
+@keyframes siEnter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.si-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--border-2), transparent);
+}
+@media (max-width: 900px) { #sideIndicator { display: none; } }
+
+/* ── Magnetic button — smooth snap back ──────────────────────── */
+.hero-cta-btn, .form-btn {
+  will-change: transform;
+}
+
+/* ── Canvas particles pointer-events fix ─────────────────────── */
+.hero-media canvas { pointer-events: none !important; }
+
+/* ── Reel & project card — GPU hint ──────────────────────────── */
+.reel-card, .project-card { will-change: transform; }
+
+/* ── Mobile: disable tilt/parallax will-change to save GPU ───── */
+@media (pointer: coarse) {
+  .reel-card, .project-card { will-change: auto; }
+}
+
+/* ================================================================
+   MOBILE ENHANCEMENTS
+   ================================================================ */
+
+/* ── Tap highlight color ──────────────────────────────────────── */
+* { -webkit-tap-highlight-color: rgba(201,169,110,.1); }
+
+/* ── Mobile touch: project card info always visible ──────────── */
+@media (pointer: coarse) {
+  /* Show category pill always on touch devices */
+  .project-cat { opacity: 1 !important; transform: none !important; }
+
+  /* Play overlay always partially visible */
+  .project-media-overlay { opacity: .6; }
+
+  /* Skill chips — slightly bigger tap targets */
+  .hero-chip { padding: .38rem .85rem; }
+
+  /* Reel card play button — always fully visible */
+  .reel-play-btn { opacity: 1 !important; }
+
+  /* Nav toggle — slightly larger */
+  .nav-toggle { padding: 10px; }
+
+  /* Prevent card 3D tilt flash on touch */
+  .reel-card:active {
+    transform: scale(.97);
+    transition: transform .15s var(--ease);
+  }
+  .project-card:active {
+    transform: translateY(-2px);
+    transition: transform .15s var(--ease);
+  }
+}
+
+/* ── iOS safe-area insets (notch / home bar) ──────────────────── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .footer {
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+  }
+  .vc-bar {
+    padding-bottom: calc(.65rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* ── Scroll progress bar — thinner on mobile ─────────────────── */
+@media (max-width: 600px) {
+  #scrollProgress { height: 1.5px; }
+}
+
+/* ── Ticker — slower on mobile for readability ────────────────── */
+@media (max-width: 600px) {
+  .ticker { animation-duration: 40s; }
+}
+
+/* ── About grid mobile — let portrait image breathe ──────────── */
+@media (max-width: 900px) {
+  .about-img {
+    aspect-ratio: 3 / 4;
+    max-height: none;
+    width: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .about-img-col { max-width: 320px; }
+}
+
+/* ── Contact page mobile spacing ─────────────────────────────── */
+@media (max-width: 600px) {
+  .contact-page {
+    padding-top: calc(var(--nav-h) + 2rem);
+    gap: 2.5rem;
+  }
+  .contact-items { gap: 1.2rem; }
+  .form-btn { width: 100%; justify-content: center; }
+}
+
+/* ── Showreel player — allow taller on mobile portrait ───────── */
+@media (max-width: 600px) {
+  .showreel-player { max-height: 56vw; }
+  .showreel-section {
+    padding-left: clamp(.7rem, 2.5vw, 1rem);
+    padding-right: clamp(.7rem, 2.5vw, 1rem);
+  }
+}
+
+/* ── Loader — smaller text on tiny phones ────────────────────── */
+@media (max-width: 380px) {
+  .loader-text { font-size: clamp(1.6rem, 9vw, 2.2rem); }
+}
+
+/* ── Hero avail badge — hide on very small screens if no room ─── */
+@media (max-width: 360px) {
+  .hero-avail { display: none; }
+}
+
 /* Project card — show play cursor only when a video ID is set */
 .project-card[data-vimeo]:not([data-vimeo=""]),
 .project-card[data-youtube]:not([data-youtube=""]) {

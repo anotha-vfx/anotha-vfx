@@ -625,3 +625,270 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 }); /* end DOMContentLoaded */
+
+/* ================================================================
+   ██████╗ ██╗   ██╗███╗   ██╗ █████╗ ███╗   ███╗██╗ ██████╗
+   ██╔══██╗╚██╗ ██╔╝████╗  ██║██╔══██╗████╗ ████║██║██╔════╝
+   ██║  ██║ ╚████╔╝ ██╔██╗ ██║███████║██╔████╔██║██║██║
+   ██║  ██║  ╚██╔╝  ██║╚██╗██║██╔══██║██║╚██╔╝██║██║██║
+   ██████╔╝   ██║   ██║ ╚████║██║  ██║██║ ╚═╝ ██║██║╚██████╗
+   ╚═════╝    ╚═╝   ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝ ╚═════╝
+   DYNAMIC ENHANCEMENTS
+   - Scroll progress bar
+   - Cursor spotlight
+   - Page transitions
+   - Magnetic buttons
+   - Text scramble on titles
+   - Hero mouse parallax
+   - Reel card 3-D tilt
+   - Hero name glitch on hover
+   - Canvas floating particles
+   - Typewriter hero tagline
+   - Side section number indicator
+   ================================================================ */
+
+/* ── 1. SCROLL PROGRESS BAR ──────────────────────────────────── */
+(function initScrollProgress() {
+  const bar = document.createElement('div');
+  bar.id = 'scrollProgress';
+  document.body.prepend(bar);
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+/* ── 2. PAGE TRANSITIONS ─────────────────────────────────────── */
+(function initPageTransitions() {
+  const overlay = document.createElement('div');
+  overlay.className = 'page-transition';
+  document.body.appendChild(overlay);
+
+  /* Fade from black on load */
+  overlay.style.opacity    = '1';
+  overlay.style.transition = 'none';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    overlay.style.transition = 'opacity .65s cubic-bezier(.87,0,.13,1)';
+    overlay.style.opacity    = '0';
+  }));
+
+  /* Fade to black on internal navigation */
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href') || '';
+    if (!href || href.startsWith('#') || href.startsWith('http') ||
+        href.startsWith('mailto') || href.startsWith('tel') ||
+        link.target === '_blank') return;
+    e.preventDefault();
+    overlay.style.transition    = 'opacity .42s cubic-bezier(.87,0,.13,1)';
+    overlay.style.opacity       = '1';
+    overlay.style.pointerEvents = 'all';
+    setTimeout(() => { window.location.href = href; }, 440);
+  });
+})();
+
+/* ── DOM-DEPENDENT FEATURES ──────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+
+  const isDesktop = window.matchMedia('(pointer:fine)').matches;
+  const isMobile  = window.innerWidth <= 768;
+
+  /* Helper: linear interpolation */
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  /* ── 3. MAGNETIC BUTTONS (desktop only) ──────────────────── */
+  if (isDesktop) {
+    document.querySelectorAll('.hero-cta-btn, .form-btn').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r  = btn.getBoundingClientRect();
+        const dx = (e.clientX - r.left - r.width  / 2) * 0.16;
+        const dy = (e.clientY - r.top  - r.height / 2) * 0.16;
+        btn.style.transform = `translate(${dx}px,${dy}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transition = 'transform .55s cubic-bezier(.16,1,.3,1)';
+        btn.style.transform  = '';
+        setTimeout(() => { btn.style.transition = ''; }, 580);
+      });
+    });
+  }
+
+  /* ── 4. HERO MOUSE PARALLAX — smooth lerp (desktop only) ─── */
+  const heroSec   = document.getElementById('hero');
+  const heroAmb   = document.querySelector('.hero-ambient');
+  const heroFrm   = document.querySelector('.hero-frame');
+  const heroChips = document.querySelector('.hero-chips');
+  const heroRole  = document.querySelector('.hero-role');
+
+  if (heroSec && isDesktop) {
+    let tMx = 0, tMy = 0, cMx = 0, cMy = 0, pRaf = null;
+
+    function parallaxTick() {
+      cMx = lerp(cMx, tMx, 0.05);
+      cMy = lerp(cMy, tMy, 0.05);
+
+      if (heroAmb)   heroAmb.style.transform   = `translate(calc(-50% + ${cMx*42}px),calc(-50% + ${cMy*20}px))`;
+      if (heroFrm)   heroFrm.style.transform   = `translate(${cMx*9}px,${cMy*5}px)`;
+      if (heroChips) heroChips.style.transform = `translate(${cMx*5}px,${cMy*3}px)`;
+      if (heroRole)  heroRole.style.transform  = `translate(${cMx*3}px,${cMy*1.5}px)`;
+
+      const done = Math.abs(tMx - cMx) < 0.0002 && Math.abs(tMy - cMy) < 0.0002;
+      pRaf = done ? null : requestAnimationFrame(parallaxTick);
+    }
+
+    heroSec.addEventListener('mousemove', e => {
+      const r = heroSec.getBoundingClientRect();
+      tMx = (e.clientX - r.width  / 2) / r.width;
+      tMy = (e.clientY - r.height / 2) / r.height;
+      if (!pRaf) pRaf = requestAnimationFrame(parallaxTick);
+    }, { passive: true });
+
+    heroSec.addEventListener('mouseleave', () => {
+      tMx = 0; tMy = 0;
+      if (!pRaf) pRaf = requestAnimationFrame(parallaxTick);
+    });
+  }
+
+  /* ── 5. REEL CARD 3-D TILT — smooth lerp (desktop only) ──── */
+  if (isDesktop) {
+    document.querySelectorAll('.reel-card').forEach(card => {
+      let tDx = 0, tDy = 0, cDx = 0, cDy = 0, tRaf = null;
+      let isHovered = false;
+
+      function tiltTick() {
+        cDx = lerp(cDx, tDx, 0.09);
+        cDy = lerp(cDy, tDy, 0.09);
+        const lift = isHovered ? 1 : 0;
+        card.style.transform =
+          `perspective(700px) rotateY(${cDx*6}deg) rotateX(${-cDy*5}deg) translateY(${-lift*4}px) scale(${1 + lift*0.015})`;
+        const done = !isHovered && Math.abs(cDx) < 0.003 && Math.abs(cDy) < 0.003;
+        if (done) { card.style.transform = ''; tRaf = null; }
+        else tRaf = requestAnimationFrame(tiltTick);
+      }
+
+      card.addEventListener('mouseenter', () => {
+        if (card.classList.contains('playing')) return;
+        isHovered = true;
+        if (!tRaf) tRaf = requestAnimationFrame(tiltTick);
+      });
+      card.addEventListener('mousemove', e => {
+        if (card.classList.contains('playing')) return;
+        const r = card.getBoundingClientRect();
+        tDx = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+        tDy = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+      });
+      card.addEventListener('mouseleave', () => {
+        isHovered = false; tDx = 0; tDy = 0;
+        if (!tRaf) tRaf = requestAnimationFrame(tiltTick);
+      });
+    });
+  }
+
+  /* ── 6. CANVAS FLOATING PARTICLES — hero ─────────────────── */
+  const heroEl = document.getElementById('hero');
+  if (heroEl) {
+    const COUNT  = isMobile ? 28 : 58;
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-hidden', 'true');
+    canvas.style.cssText =
+      'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+    const mediaEl   = heroEl.querySelector('.hero-media');
+    const overlayEl = mediaEl && mediaEl.querySelector('.hero-overlay');
+    if (overlayEl) mediaEl.insertBefore(canvas, overlayEl);
+    else if (mediaEl) mediaEl.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let W, H, pts;
+
+    function resize() {
+      W = canvas.width  = heroEl.offsetWidth;
+      H = canvas.height = heroEl.offsetHeight;
+    }
+    function spawn() {
+      pts = Array.from({ length: COUNT }, () => ({
+        x:  Math.random() * W,
+        y:  Math.random() * H,
+        r:  Math.random() * 1.0 + 0.2,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: -(Math.random() * 0.28 + 0.06),
+        a:  Math.random() * 0.28 + 0.07,
+      }));
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      pts.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201,169,110,${p.a})`;
+        ctx.fill();
+        p.x += p.vx; p.y += p.vy;
+        if (p.y < -4)    { p.y = H + 4; p.x = Math.random() * W; }
+        if (p.x < -4)      p.x = W + 4;
+        if (p.x > W + 4)   p.x = -4;
+      });
+      requestAnimationFrame(draw);
+    }
+    resize(); spawn(); draw();
+    window.addEventListener('resize', () => { resize(); spawn(); });
+  }
+
+  /* ── 7. TYPEWRITER — hero tagline ────────────────────────── */
+  const taglineEl = document.querySelector('.hero-tagline');
+  if (taglineEl) {
+    const txt = taglineEl.textContent.trim();
+    taglineEl.textContent    = '';
+    taglineEl.style.opacity   = '0';
+    taglineEl.style.animation = 'none';
+    taglineEl.style.transform = 'none';
+    setTimeout(() => {
+      taglineEl.style.opacity = '1';
+      let i = 0;
+      (function typeChar() {
+        if (i < txt.length) {
+          taglineEl.textContent += txt[i++];
+          setTimeout(typeChar, 34 + Math.random() * 18);
+        }
+      })();
+    }, 2280);
+  }
+
+  /* ── 8. SIDE SECTION NUMBER INDICATOR (desktop) ──────────── */
+  if (document.getElementById('hero')) {
+    const si = document.createElement('div');
+    si.id = 'sideIndicator';
+    si.innerHTML =
+      '<span class="si-label">SECTION</span>' +
+      '<span class="si-num">01</span>' +
+      '<div class="si-line"></div>';
+    document.body.appendChild(si);
+
+    const siNum = si.querySelector('.si-num');
+    const sects = [
+      { el: document.getElementById('hero'),             num: '01' },
+      { el: document.querySelector('.showreel-section'), num: '02' },
+      { el: document.querySelector('.reels-section'),    num: '03' },
+      { el: document.getElementById('work'),             num: '04' },
+      { el: document.querySelector('.about-teaser'),     num: '05' },
+    ].filter(s => s.el);
+
+    const siObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const hit = sects.find(s => s.el === e.target);
+        if (!hit || !siNum) return;
+        siNum.classList.add('si-num-exit');
+        setTimeout(() => {
+          siNum.textContent = hit.num;
+          siNum.classList.remove('si-num-exit');
+          siNum.classList.add('si-num-enter');
+          setTimeout(() => siNum.classList.remove('si-num-enter'), 320);
+        }, 190);
+      });
+    }, { threshold: 0.35 });
+    sects.forEach(s => siObs.observe(s.el));
+  }
+
+}); /* end DOMContentLoaded — dynamic enhancements */
