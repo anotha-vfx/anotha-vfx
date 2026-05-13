@@ -185,18 +185,111 @@ body::after {
   background: var(--bg);
   z-index: 499;
   display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 1rem;
+  padding: calc(var(--nav-h) + 2.5rem) clamp(1.5rem, 6vw, 2.5rem) 2.5rem;
   opacity: 0; visibility: hidden;
-  transition: opacity .4s var(--ease), visibility .4s;
+  transition: opacity .45s var(--ease-expo), visibility .45s;
+  overflow: hidden;
 }
-.mobile-menu.open { opacity: 1; visibility: visible; }
-.mobile-link {
+/* Ambient top glow */
+.mobile-menu::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 55vh;
+  background: radial-gradient(ellipse 130% 55% at 50% 0%, rgba(30,8,60,.55) 0%, transparent 100%);
+  pointer-events: none; z-index: 0;
+}
+/* Giant background watermark */
+.mobile-menu::after {
+  content: 'VFX';
+  position: absolute; bottom: -1.5rem; right: -1rem;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(3rem, 12vw, 5rem);
-  letter-spacing: .06em; color: var(--text-muted);
+  font-size: clamp(9rem, 46vw, 16rem);
+  letter-spacing: .04em;
+  color: rgba(201,169,110,.038);
+  pointer-events: none; user-select: none; z-index: 0;
+  line-height: 1;
+}
+
+.mobile-menu.open { opacity: 1; visibility: visible; }
+
+/* Nav links group */
+.mobile-nav {
+  flex: 1;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 1;
+}
+
+/* Individual link row */
+.mobile-link {
+  display: flex; align-items: baseline; gap: .9rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.055);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.6rem, 14vw, 4.8rem);
+  letter-spacing: .04em; color: var(--text-muted);
+  opacity: 0; transform: translateY(28px);
+  transition: color .3s, padding-left .35s var(--ease-out),
+              opacity .55s var(--ease-out), transform .55s var(--ease-out);
+}
+.mobile-link:first-child { border-top: 1px solid rgba(255,255,255,.055); }
+.mobile-link:active  { color: var(--text); }
+.mobile-link.active  { color: var(--gold-bright); }
+
+/* Stagger in when open */
+.mobile-menu.open .mobile-link           { opacity: 1; transform: none; }
+.mobile-menu.open .mobile-link:nth-child(1) { transition-delay: .07s; }
+.mobile-menu.open .mobile-link:nth-child(2) { transition-delay: .14s; }
+.mobile-menu.open .mobile-link:nth-child(3) { transition-delay: .21s; }
+
+/* Link number badge */
+.mob-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: .7rem; letter-spacing: .22em;
+  color: rgba(201,169,110,.45);
+  flex-shrink: 0; align-self: flex-start;
+  padding-top: .55rem;
   transition: color .3s;
 }
-.mobile-link:hover { color: var(--text); }
+.mobile-link.active .mob-num { color: var(--gold); }
+
+/* Arrow icon — appears on active */
+.mob-arrow {
+  margin-left: auto;
+  color: var(--gold);
+  opacity: 0; transform: translate(-6px, 6px);
+  transition: opacity .3s, transform .4s var(--ease-spring);
+  align-self: center;
+  flex-shrink: 0;
+}
+.mobile-link.active .mob-arrow { opacity: 1; transform: none; }
+
+/* Bottom footer bar */
+.mobile-menu-footer {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 1.6rem;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .5s .32s var(--ease-out), transform .5s .32s var(--ease-out);
+}
+.mobile-menu.open .mobile-menu-footer { opacity: 1; transform: none; }
+
+.mob-avail {
+  display: flex; align-items: center; gap: .5rem;
+  font-size: .56rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.mob-avail-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #3ecf8e;
+  box-shadow: 0 0 7px rgba(62,207,142,.5);
+  animation: availPulse 2.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.mob-social { display: flex; gap: 1.4rem; }
+.mob-social a {
+  font-size: .58rem; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--text-muted); transition: color .3s;
+}
+.mob-social a:hover, .mob-social a:active { color: var(--gold); }
 
 /* ── SCROLL REVEAL ─────────────────────────────────────────────── */
 /*
