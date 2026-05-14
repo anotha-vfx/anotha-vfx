@@ -97,6 +97,7 @@ body::after {
 /* ── CUSTOM CURSOR ─────────────────────────────────────────────── */
 @media (pointer: fine) {
   * { cursor: none !important; }
+
   .cursor {
     position: fixed;
     width: 8px; height: 8px;
@@ -105,23 +106,60 @@ body::after {
     pointer-events: none;
     z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: transform .12s var(--ease), background .2s;
+    /* no transition on transform — JS controls it directly for stretch */
+    transition: background .2s, box-shadow .2s;
     mix-blend-mode: difference;
-    will-change: left, top;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.12),
+      0 0 8px 2px rgba(255,255,255,.35),
+      0 0 22px 4px rgba(255,255,255,.1);
+    will-change: transform, left, top;
   }
   .cursor-ring {
     position: fixed;
     width: 36px; height: 36px;
-    border: 1px solid rgba(240,240,240,.28);
+    border: 1px solid rgba(255,255,255,.35);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9997;
     transform: translate(-50%, -50%);
     transition: width .3s var(--ease-out), height .3s var(--ease-out), border-color .3s;
+    box-shadow: 0 0 8px 1px rgba(255,255,255,.08);
     will-change: left, top;
   }
-  .cursor.big { transform: translate(-50%, -50%) scale(3); background: var(--gold); }
-  .cursor-ring.big { width: 54px; height: 54px; border-color: rgba(196,164,114,.35); }
+  .cursor.big {
+    background: var(--gold);
+    box-shadow: 0 0 10px 3px rgba(201,169,110,.6), 0 0 20px 6px rgba(201,169,110,.2);
+  }
+  .cursor-ring.big { width: 54px; height: 54px; border-color: rgba(201,169,110,.45); box-shadow: 0 0 12px 2px rgba(201,169,110,.15); }
+
+  /* Trail dots */
+  .cursor-trail {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9996;
+    transform: translate(-50%, -50%);
+    background: var(--text);
+    mix-blend-mode: difference;
+    will-change: left, top;
+  }
+
+  /* Click ripple */
+  @keyframes cursorRipple {
+    0%   { transform: translate(-50%,-50%) scale(.4); opacity: .55; }
+    100% { transform: translate(-50%,-50%) scale(3.2); opacity: 0;   }
+  }
+  .cursor-ripple {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9995;
+    mix-blend-mode: difference;
+    animation: cursorRipple .55s cubic-bezier(.2,.8,.2,1) forwards;
+  }
 }
 
 /* ── NAVIGATION ────────────────────────────────────────────────── */

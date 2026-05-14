@@ -271,47 +271,98 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cursor && ring && window.matchMedia('(pointer:fine)').matches) {
     let mx = -300, my = -300;
     let rx = -300, ry = -300;
+    let prevMx = -300, prevMy = -300;
+    let isBig = false;
 
+    /* ── Trail dots (chain: each follows the previous) ── */
+    const TRAIL_COUNT = 7;
+    const trail = Array.from({ length: TRAIL_COUNT }, (_, i) => {
+      const d = document.createElement('div');
+      d.className = 'cursor-trail';
+      const size = Math.max(1.5, 5.5 - i * 0.65);
+      d.style.cssText = `width:${size}px;height:${size}px;opacity:${(0.38 - i * 0.048).toFixed(3)};`;
+      document.body.appendChild(d);
+      return { el: d, x: -300, y: -300 };
+    });
+
+    /* ── Mouse move — dot snaps instantly, velocity for stretch ── */
     document.addEventListener('mousemove', e => {
+      prevMx = mx; prevMy = my;
       mx = e.clientX; my = e.clientY;
       cursor.style.left = mx + 'px';
       cursor.style.top  = my + 'px';
+
+      if (!isBig) {
+        const vx = mx - prevMx, vy = my - prevMy;
+        const speed = Math.hypot(vx, vy);
+        if (speed > 1.5) {
+          const angle   = Math.atan2(vy, vx) * 180 / Math.PI;
+          const stretch = Math.min(1 + speed * 0.055, 2.6);
+          const squeeze = 1 / Math.sqrt(stretch);
+          cursor.style.transform =
+            `translate(-50%,-50%) rotate(${angle}deg) scaleX(${stretch.toFixed(3)}) scaleY(${squeeze.toFixed(3)})`;
+        } else {
+          cursor.style.transform = 'translate(-50%,-50%)';
+        }
+      }
     });
 
-    /* Keep cursor visible in fullscreen — move elements into/out of the
-       fullscreen element so they remain in the visible subtree.          */
+    /* ── Click ripple ── */
+    document.addEventListener('mousedown', e => {
+      const r = document.createElement('div');
+      r.className = 'cursor-ripple';
+      r.style.left = e.clientX + 'px';
+      r.style.top  = e.clientY + 'px';
+      document.body.appendChild(r);
+      r.addEventListener('animationend', () => r.remove(), { once: true });
+    });
+
+    /* ── Keep cursor visible in fullscreen ── */
     function handleFSChange() {
       const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
-      if (fsEl) {
-        fsEl.appendChild(cursor);
-        fsEl.appendChild(ring);
-      } else {
-        document.body.appendChild(cursor);
-        document.body.appendChild(ring);
-      }
+      const target = fsEl || document.body;
+      target.appendChild(cursor);
+      target.appendChild(ring);
+      trail.forEach(t => target.appendChild(t.el));
     }
     document.addEventListener('fullscreenchange',       handleFSChange);
     document.addEventListener('webkitfullscreenchange', handleFSChange);
 
-    /* Ring trails slightly behind */
+    /* ── RAF loop: ring lerp + trail chain ── */
     (function rafLoop() {
+      /* Ring */
       rx += (mx - rx) * 0.1;
       ry += (my - ry) * 0.1;
       ring.style.left = rx + 'px';
       ring.style.top  = ry + 'px';
+
+      /* Trail: each dot chases the previous position */
+      let px = mx, py = my;
+      trail.forEach(dot => {
+        dot.x += (px - dot.x) * 0.32;
+        dot.y += (py - dot.y) * 0.32;
+        dot.el.style.left = dot.x + 'px';
+        dot.el.style.top  = dot.y + 'px';
+        px = dot.x; py = dot.y;
+      });
+
       requestAnimationFrame(rafLoop);
     })();
 
-    /* Grow on interactive elements */
+    /* ── Grow on interactive elements ── */
     document.querySelectorAll('a, button, .project-card, input, textarea')
       .forEach(el => {
         el.addEventListener('mouseenter', () => {
+          isBig = true;
           cursor.classList.add('big');
           ring.classList.add('big');
+          cursor.style.transform = 'translate(-50%,-50%) scale(3)';
         });
         el.addEventListener('mouseleave', () => {
+          isBig = false;
           cursor.classList.remove('big');
           ring.classList.remove('big');
+          cursor.style.transform = 'translate(-50%,-50%)';
         });
       });
   }
