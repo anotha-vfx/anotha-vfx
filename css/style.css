@@ -1586,7 +1586,7 @@ a.ci-val:hover { color: var(--gold); }
   .hero-ambient   { font-size: clamp(6rem, 20vw, 10rem); opacity: .03; }
   .hero-frame     { inset: calc(var(--nav-h) + 0.4rem) 1rem 1rem 1rem; }
   .hero-avail     { font-size: .48rem; letter-spacing: .18em; padding: .35rem .75rem; }
-  .hero-role      { font-size: .58rem; }
+  .hero-role      { font-size: .52rem; letter-spacing: .12em; gap: .3rem; flex-wrap: wrap; row-gap: .15rem; }
   .hero-tagline   { font-size: .8rem; }
   .hero-chips     { gap: .3rem; margin-top: .9rem; }
   .hero-chip      { font-size: .5rem; padding: .24rem .52rem; }
