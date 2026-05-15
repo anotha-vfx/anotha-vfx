@@ -1593,6 +1593,7 @@ a.ci-val:hover { color: var(--gold); }
 
   /* Page headings */
   .page-title  { font-size: clamp(3.5rem, 17vw, 6rem); }
+  .page-hero   { padding-left: 1rem; padding-right: 1rem; padding-bottom: clamp(2rem, 4vh, 3rem); }
   .contact-h1  { font-size: clamp(3rem, 15vw, 5rem); }
   .section-title  { font-size: clamp(2rem, 9vw, 3rem); }
   .at-title       { font-size: clamp(2rem, 8vw, 3rem); }
@@ -1895,6 +1896,257 @@ a.ci-val:hover { color: var(--gold); }
 /* ── Ticker — slower on mobile for readability ────────────────── */
 @media (max-width: 600px) {
   .ticker { animation-duration: 40s; }
+}
+
+/* ── Reviews marquee header — stack on small screens ─────────── */
+@media (max-width: 600px) {
+  .reviews-marquee-section { padding: clamp(2.5rem, 6vh, 4rem) 0; }
+  .reviews-marquee-header  { flex-direction: column; align-items: flex-start; gap: .8rem; }
+}
+
+/* ── Reviews page — mobile ────────────────────────────────────── */
+@media (max-width: 900px) {
+  .reviews-page-section { padding: clamp(2rem, 5vh, 3.5rem) clamp(1rem, 4vw, 2rem) clamp(3rem, 7vh, 5rem); }
+  .review-form-wrap     { max-width: 100%; }
+}
+@media (max-width: 600px) {
+  /* Form */
+  .reviews-page-section { padding: clamp(1.5rem, 4vh, 2.5rem) 1rem clamp(3rem, 7vh, 5rem); }
+  .review-form-sub      { font-size: .8rem; }
+
+  /* Stars — bigger tap targets on phones */
+  .star-btn  { font-size: 2rem; padding: .2rem .2rem; }
+  .star-picker { gap: .15rem; }
+
+  /* Grid */
+  .reviews-page-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .review-page-card  { padding: 1.4rem 1.2rem; }
+  .reviews-grid-header { margin-top: clamp(2rem, 5vh, 3.5rem); padding-top: clamp(1.5rem, 3vh, 2.5rem); }
+}
+
+/* ── Star picker — always big tap areas on touch devices ─────── */
+@media (pointer: coarse) {
+  .star-btn { font-size: 2.1rem; padding: .25rem .2rem; min-width: 44px; min-height: 44px; }
+}
+
+/* ── About / Services page — tighter padding on mobile ───────── */
+@media (max-width: 600px) {
+  .about-grid   { padding: clamp(2rem, 5vh, 3.5rem) 1rem; gap: 2rem; }
+  .about-bio    { margin-bottom: 2rem; }
+  .skills-block { margin-bottom: 1.5rem; }
+}
+
+/* ── Contact page — tighter on mobile ───────────────────────── */
+@media (max-width: 600px) {
+  .contact-page { padding: calc(var(--nav-h) + 2rem) 1rem clamp(3rem, 7vh, 5rem); gap: 2.5rem; }
+  .contact-h1   { margin-bottom: 1rem; }
+  .contact-sub  { margin-bottom: 1.8rem; }
+  .contact-items { gap: 1.3rem; }
+}
+
+/* ── Footer — wrap social links on very small screens ────────── */
+@media (max-width: 400px) {
+  .footer-social { flex-wrap: wrap; gap: 1rem 1.5rem; }
+  .mob-social    { flex-wrap: wrap; gap: .4rem 1.2rem; }
+}
+
+/* ================================================================
+   REVIEWS — HOMEPAGE MARQUEE
+   ================================================================ */
+.reviews-marquee-section {
+  padding: clamp(4rem, 8vh, 6.5rem) 0;
+  overflow: hidden;
+  position: relative;
+}
+.reviews-marquee-section::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,.18), transparent);
+}
+.reviews-marquee-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem);
+  margin-bottom: clamp(1.8rem, 4vh, 2.8rem);
+}
+.reviews-marquee-wrap {
+  position: relative;
+  overflow: hidden;
+  /* Fade edges */
+  mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.reviews-marquee-track {
+  display: flex;
+  gap: 1.2rem;
+  width: max-content;
+  animation: marqueeScroll 38s linear infinite;
+}
+.reviews-marquee-track:hover { animation-play-state: paused; }
+
+.reviews-marquee-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.6rem 1.8rem;
+  width: 320px;
+  flex-shrink: 0;
+  display: flex; flex-direction: column; gap: .85rem;
+  transition: border-color .3s, box-shadow .3s;
+}
+.reviews-marquee-card:hover {
+  border-color: rgba(201,169,110,.2);
+  box-shadow: 0 8px 40px rgba(0,0,0,.35), 0 0 0 1px rgba(201,169,110,.08);
+}
+.rmc-stars {
+  font-size: .85rem;
+  color: var(--gold);
+  letter-spacing: .06em;
+}
+.rmc-text {
+  font-size: .84rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  flex: 1;
+}
+.rmc-author {
+  font-size: .78rem;
+  color: var(--text);
+  font-weight: 500;
+  letter-spacing: .04em;
+}
+.rmc-role {
+  font-size: .62rem;
+  color: var(--text-dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* ================================================================
+   REVIEWS — REVIEWS PAGE
+   ================================================================ */
+.reviews-page-section {
+  padding: clamp(3rem, 7vh, 5rem) clamp(1.5rem, 4vw, 3.5rem) clamp(5rem, 10vh, 8rem);
+  max-width: 1440px; margin: 0 auto;
+}
+
+.reviews-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.4rem;
+  margin-bottom: clamp(4rem, 8vh, 6rem);
+}
+
+.review-page-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.8rem 2rem;
+  display: flex; flex-direction: column; gap: .9rem;
+  transition: border-color .35s, box-shadow .35s, transform .35s var(--ease-out);
+}
+.review-page-card:hover {
+  border-color: rgba(201,169,110,.22);
+  box-shadow: 0 12px 50px rgba(0,0,0,.4), 0 0 0 1px rgba(201,169,110,.08);
+  transform: translateY(-3px);
+}
+.rpc-stars {
+  font-size: .9rem;
+  color: var(--gold);
+  letter-spacing: .06em;
+}
+.rpc-text {
+  font-size: .87rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  flex: 1;
+  font-style: italic;
+}
+.rpc-author {
+  font-size: .82rem;
+  color: var(--text);
+  font-weight: 500;
+  letter-spacing: .04em;
+}
+.rpc-role {
+  font-size: .62rem;
+  color: var(--gold);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* Review form wrapper */
+.review-form-wrap {
+  max-width: 640px;
+  padding-top: clamp(3rem, 6vh, 4.5rem);
+  border-top: 1px solid var(--border);
+}
+.review-form-sub {
+  font-size: .84rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+/* Interactive star picker */
+.star-picker {
+  display: flex;
+  gap: .25rem;
+  margin-top: .2rem;
+}
+.star-btn {
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--gold);
+  background: none;
+  border: none;
+  padding: .1rem .15rem;
+  transition: transform .15s var(--ease-spring), color .15s, text-shadow .15s;
+  cursor: pointer;
+  user-select: none;
+}
+.star-btn:hover,
+.star-btn.active {
+  color: var(--gold-bright);
+  text-shadow: 0 0 14px rgba(201,169,110,.55);
+  transform: scale(1.18);
+}
+.star-btn.inactive {
+  color: var(--border-2);
+  text-shadow: none;
+  transform: scale(1);
+}
+.star-label {
+  display: block;
+  margin-top: .45rem;
+  font-size: .62rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color .15s;
+  min-height: 1em;
+}
+
+/* Reviews grid header (separator before the cards) */
+.reviews-grid-header {
+  margin-top: clamp(3rem, 6vh, 5rem);
+  padding-top: clamp(2rem, 4vh, 3rem);
+  border-top: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .reviews-page-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+@media (max-width: 600px) {
+  .reviews-marquee-card { width: 260px; padding: 1.3rem 1.4rem; }
+  .reviews-page-grid    { grid-template-columns: 1fr; }
+  .reviews-marquee-track { animation-duration: 28s; }
 }
 
 /* ── About grid mobile — let portrait image breathe ──────────── */

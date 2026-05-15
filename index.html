@@ -90,6 +90,7 @@
       <a href="index.html"   class="nav-link active">Work</a>
       <a href="about/"    class="nav-link">About</a>
       <a href="services/" class="nav-link">Services</a>
+      <a href="reviews/"  class="nav-link">Reviews</a>
       <a href="contact/"  class="nav-link">Contact</a>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -103,12 +104,20 @@
         <span class="mob-num">01</span>Work
         <svg class="mob-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
-      <a href="about/"   class="mobile-link">
+      <a href="about/"    class="mobile-link">
         <span class="mob-num">02</span>About
         <svg class="mob-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
-      <a href="contact/" class="mobile-link">
-        <span class="mob-num">03</span>Contact
+      <a href="services/" class="mobile-link">
+        <span class="mob-num">03</span>Services
+        <svg class="mob-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      </a>
+      <a href="reviews/"  class="mobile-link">
+        <span class="mob-num">04</span>Reviews
+        <svg class="mob-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      </a>
+      <a href="contact/"  class="mobile-link">
+        <span class="mob-num">05</span>Contact
         <svg class="mob-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
     </nav>
@@ -579,6 +588,27 @@
   </section>
 
   <!-- ══════════════════════════════════════════
+       REVIEWS MARQUEE
+  ══════════════════════════════════════════ -->
+  <section class="reviews-marquee-section">
+    <div class="reviews-marquee-header">
+      <div>
+        <span class="section-label">Client Testimonials</span>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem)">What Clients Say</h2>
+      </div>
+      <a href="reviews/" class="btn-text" style="flex-shrink:0">
+        All Reviews
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      </a>
+    </div>
+    <div class="reviews-marquee-wrap">
+      <div class="reviews-marquee-track" id="reviewsMarqueeTrack">
+        <!-- Injected from reviews/data.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
        ABOUT TEASER
   ══════════════════════════════════════════ -->
   <section class="about-teaser">
@@ -618,6 +648,8 @@
       <nav class="footer-nav">
         <a href="index.html">Work</a>
         <a href="about/">About</a>
+        <a href="services/">Services</a>
+        <a href="reviews/">Reviews</a>
         <a href="contact/">Contact</a>
       </nav>
       <div class="footer-social">
@@ -652,6 +684,26 @@
 
   <!-- Vimeo Player SDK — needed for custom controls -->
   <script src="https://player.vimeo.com/api/player.js"></script>
+  <!-- Reviews data — must load before main.js uses REVIEWS -->
+  <script src="reviews/data.js"></script>
   <script src="js/main.js"></script>
+
+  <script>
+    // Build homepage reviews marquee from reviews/data.js
+    (function () {
+      const track = document.getElementById('reviewsMarqueeTrack');
+      if (!track || typeof REVIEWS === 'undefined' || !REVIEWS.length) return;
+      // Double the set so the seamless loop works
+      const cards = [...REVIEWS, ...REVIEWS].map(r => `
+        <div class="reviews-marquee-card">
+          <div class="rmc-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
+          <p class="rmc-text">"${r.text}"</p>
+          <div class="rmc-author">${r.name}</div>
+          <div class="rmc-role">${r.role}</div>
+        </div>
+      `).join('');
+      track.innerHTML = cards;
+    })();
+  </script>
 </body>
 </html>
