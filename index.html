@@ -697,7 +697,7 @@
       const cards = [...REVIEWS, ...REVIEWS].map(r => `
         <div class="reviews-marquee-card">
           <div class="rmc-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
-          <p class="rmc-text">"${r.text}"</p>
+          <p class="rmc-text">${r.text}</p>
           <div class="rmc-author">${r.name}</div>
           <div class="rmc-role">${r.role}</div>
         </div>

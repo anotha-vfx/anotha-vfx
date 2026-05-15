@@ -208,7 +208,7 @@
       grid.innerHTML = REVIEWS.map(r => `
         <div class="review-page-card">
           <div class="rpc-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
-          <p class="rpc-text">"${r.text}"</p>
+          <p class="rpc-text">${r.text}</p>
           <div class="rpc-author">${r.name}</div>
           <div class="rpc-role">${r.role}</div>
         </div>
