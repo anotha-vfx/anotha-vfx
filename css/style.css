@@ -1994,10 +1994,6 @@ a.ci-val:hover { color: var(--gold); }
 .reviews-marquee-wrap {
   position: relative;
   overflow: hidden;
-  /* Force Safari to create a GPU compositing layer so the animated
-     child renders correctly inside overflow:hidden on iOS/iPadOS */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
 }
 .reviews-marquee-wrap::before,
 .reviews-marquee-wrap::after {
@@ -2014,20 +2010,10 @@ a.ci-val:hover { color: var(--gold); }
   background: linear-gradient(-90deg, var(--bg), transparent);
 }
 
-@keyframes marqueeScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
 .reviews-marquee-track {
-  /* inline-flex is naturally content-sized — avoids the Safari bug where
-     display:flex + width:max-content gives wrong width for translateX(-50%) */
   display: inline-flex;
   gap: 1.2rem;
-  animation: marqueeScroll 38s linear infinite;
-  will-change: transform;
-}
-@media (hover: hover) and (pointer: fine) {
-  .reviews-marquee-track:hover { animation-play-state: paused; }
+  will-change: transform;  /* animation driven by Web Animations API in JS */
 }
 
 .reviews-marquee-card {
@@ -2187,7 +2173,6 @@ a.ci-val:hover { color: var(--gold); }
 @media (max-width: 600px) {
   .reviews-marquee-card { width: 260px; padding: 1.3rem 1.4rem; }
   .reviews-page-grid    { grid-template-columns: 1fr; }
-  .reviews-marquee-track { animation-duration: 28s; }
 }
 
 /* ── About grid mobile — let portrait image breathe ──────────── */

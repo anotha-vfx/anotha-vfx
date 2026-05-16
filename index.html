@@ -730,20 +730,40 @@
   <script src="js/main.js"></script>
 
   <script>
-    // Build homepage reviews marquee from reviews/data.js
+    // Build homepage reviews marquee and animate via Web Animations API
+    // (CSS animations inside overflow:hidden are unreliable on Safari/iOS)
     (function () {
-      const track = document.getElementById('reviewsMarqueeTrack');
+      var track = document.getElementById('reviewsMarqueeTrack');
       if (!track || typeof REVIEWS === 'undefined' || !REVIEWS.length) return;
-      // Double the set so the seamless loop works
-      const cards = [...REVIEWS, ...REVIEWS].map(r => `
-        <div class="reviews-marquee-card">
-          <div class="rmc-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
-          <p class="rmc-text">${r.text}</p>
-          <div class="rmc-author">${r.name}</div>
-          <div class="rmc-role">${r.role}</div>
-        </div>
-      `).join('');
-      track.innerHTML = cards;
+
+      // Double the cards for a seamless infinite loop
+      track.innerHTML = [...REVIEWS, ...REVIEWS].map(function(r) {
+        return '<div class="reviews-marquee-card">' +
+          '<div class="rmc-stars">' + '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars) + '</div>' +
+          '<p class="rmc-text">' + r.text + '</p>' +
+          '<div class="rmc-author">' + r.name + '</div>' +
+          '<div class="rmc-role">' + r.role + '</div>' +
+          '</div>';
+      }).join('');
+
+      // Wait one frame so the browser has measured the rendered widths
+      requestAnimationFrame(function() {
+        var half = track.scrollWidth / 2;   // pixel width of one full set
+        if (!half) return;
+        var dur  = window.innerWidth <= 600 ? 28000 : 38000; // ms
+
+        var anim = track.animate(
+          [{ transform: 'translateX(0px)' },
+           { transform: 'translateX(-' + half + 'px)' }],
+          { duration: dur, iterations: Infinity, easing: 'linear' }
+        );
+
+        // Pause on hover only for real pointer (mouse/trackpad) devices
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+          track.addEventListener('mouseenter', function() { anim.pause(); });
+          track.addEventListener('mouseleave', function() { anim.play();  });
+        }
+      });
     })();
   </script>
 </body>
