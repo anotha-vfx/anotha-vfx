@@ -63,4 +63,14 @@ const REVIEWS = [
     stars: 4
   },
 
+   // -- Review 6 __
+  {
+    text: "Working with Anotha has been a fantastic experience. His compositing and green screen work is seamless the kind where you genuinely can’t tell where the real footage ends and the VFX begins. Every project he touches feels polished and cinematic.\n" +
+        "What stands out most is his consistency. Whether it’s a complex multi-layer composite or a tight film/video VFX shot, the quality never dips. He clearly knows his craft inside out and brings a sharp eye to every frame.\n" +
+        "If you’re looking for a VFX artist who delivers great results reliably, he’s the one to call. Highly recommend!",
+    name: "Jonathan",
+    role: "Youtuber",
+    stars: 4
+  },
+
 ];
