@@ -122,15 +122,16 @@
     </div>
   </div>
 
-  <!-- PAGE HEADER -->
-  <header class="page-hero">
-    <span class="page-label">What I Do</span>
-    <h1 class="page-title">SERVICES</h1>
-  </header>
-
   <!-- SERVICES GRID -->
-  <div class="about-grid" style="padding-top:0">
-    <div class="about-text-col" style="grid-column:1/-1;max-width:900px;margin:0 auto;padding:4rem 2rem 6rem;">
+  <div class="about-grid" style="padding-top: calc(var(--nav-h) + clamp(3rem, 8vh, 5rem));">
+
+    <!-- PAGE HEADER — spans both grid columns -->
+    <header class="page-hero" style="padding-top: 0;">
+      <span class="page-label">What I Do</span>
+      <h1 class="page-title">SERVICES</h1>
+    </header>
+
+    <div class="about-text-col" style="grid-column:1/-1;max-width:900px;padding:4rem 0 6rem;">
 
       <div class="about-bio" style="margin-bottom:3rem;">
         <p class="bio-lead">

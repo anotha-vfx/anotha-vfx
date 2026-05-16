@@ -1323,6 +1323,17 @@ body::after {
   padding-bottom: clamp(3rem, 6vh, 4.5rem);
   border-bottom: 1px solid var(--border);
 }
+/* When page-hero is nested inside a content section, inherit the section's
+   horizontal padding — avoids double-indenting the heading */
+.about-grid > .page-hero {
+  grid-column: 1 / -1;   /* span both grid columns on the about/services pages */
+  padding-left: 0;
+  padding-right: 0;
+}
+.reviews-page-section > .page-hero {
+  padding-left: 0;
+  padding-right: 0;
+}
 .page-label {
   display: block;
   font-size: .6rem; font-weight: 500;
@@ -1786,7 +1797,7 @@ a.ci-val:hover { color: var(--gold); }
   z-index: 10000;
   pointer-events: none;
   box-shadow: 0 0 10px rgba(201,169,110,.55);
-  transition: width .12s linear;
+  transition: none;
 }
 
 /* cursor-spotlight removed */
@@ -1983,9 +1994,20 @@ a.ci-val:hover { color: var(--gold); }
 .reviews-marquee-wrap {
   position: relative;
   overflow: hidden;
-  /* Fade edges */
-  mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+.reviews-marquee-wrap::before,
+.reviews-marquee-wrap::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; width: 80px;
+  z-index: 2; pointer-events: none;
+}
+.reviews-marquee-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), transparent);
+}
+.reviews-marquee-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--bg), transparent);
 }
 
 @keyframes marqueeScroll {
@@ -1998,7 +2020,9 @@ a.ci-val:hover { color: var(--gold); }
   width: max-content;
   animation: marqueeScroll 38s linear infinite;
 }
-.reviews-marquee-track:hover { animation-play-state: paused; }
+@media (hover: hover) and (pointer: fine) {
+  .reviews-marquee-track:hover { animation-play-state: paused; }
+}
 
 .reviews-marquee-card {
   background: var(--surface);
@@ -2095,7 +2119,6 @@ a.ci-val:hover { color: var(--gold); }
 .review-form-wrap {
   max-width: 640px;
   padding-top: clamp(3rem, 6vh, 4.5rem);
-  border-top: 1px solid var(--border);
 }
 .review-form-sub {
   font-size: .84rem;
