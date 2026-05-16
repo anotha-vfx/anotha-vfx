@@ -77,10 +77,16 @@ function buildVimeoEmbed(vimeoId, landscape) {
   var f = document.createElement('iframe');
   f.src = 'https://player.vimeo.com/video/' + vimeoId +
           '?autoplay=1&controls=0&title=0&byline=0&portrait=0' +
-          '&quality=1080p&color=c4a472&dnt=1';
+          '&playsinline=1&quality=1080p&color=c4a472&dnt=1';
   f.allow = 'autoplay; fullscreen; picture-in-picture';
   f.allowFullscreen = true;
   wrap.appendChild(f);
+
+  /* Transparent tap-intercept layer — sits above the iframe so mobile taps
+     never reach Vimeo's native play/pause overlay; routed to our controls instead */
+  var tapLayer = document.createElement('div');
+  tapLayer.className = 'vc-tap';
+  wrap.appendChild(tapLayer);
 
   var bar = document.createElement('div');
   bar.className = 'vc-bar';
@@ -114,6 +120,11 @@ function buildVimeoEmbed(vimeoId, landscape) {
     var iPause  = bar.querySelector('.icon-pause');
     var iVol    = bar.querySelector('.icon-vol');
     var iMuted  = bar.querySelector('.icon-muted');
+
+    /* Tap layer: toggle play/pause without triggering Vimeo's native overlay */
+    tapLayer.addEventListener('click', function() {
+      player.getPaused().then(function(p) { p ? player.play() : player.pause(); });
+    });
 
     playBtn.addEventListener('click', function(e) {
       e.stopPropagation();
@@ -512,6 +523,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (vimeoId) {
         card.appendChild(buildVimeoEmbed(vimeoId, false)); /* portrait reel — no rotation */
+
+        /* Hook into the Vimeo player once it registers (buildVimeoEmbed uses a 150ms delay) */
+        setTimeout(() => {
+          const entry = vcPlayers[vcPlayers.length - 1];
+          if (!entry) return;
+
+          /* Show/hide info overlay based on actual play state */
+          entry.player.on('play',  () => card.classList.add('is-playing'));
+          entry.player.on('pause', () => card.classList.remove('is-playing'));
+
+          /* When video ends: restore the card to its original thumbnail state */
+          entry.player.on('ended', () => {
+            card.classList.remove('playing', 'is-playing');
+            const wrap = card.querySelector('.vc-wrap');
+            if (wrap) wrap.remove();
+          });
+        }, 300);
       } else {
         const f = document.createElement('iframe');
         f.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;

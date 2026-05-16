@@ -272,11 +272,13 @@ body::after {
 .mobile-link:active  { color: var(--text); }
 .mobile-link.active  { color: var(--gold-bright); }
 
-/* Stagger in when open */
-.mobile-menu.open .mobile-link           { opacity: 1; transform: none; }
-.mobile-menu.open .mobile-link:nth-child(1) { transition-delay: .07s; }
-.mobile-menu.open .mobile-link:nth-child(2) { transition-delay: .14s; }
-.mobile-menu.open .mobile-link:nth-child(3) { transition-delay: .21s; }
+/* Stagger in when open — one delay per link */
+.mobile-menu.open .mobile-link             { opacity: 1; transform: none; }
+.mobile-menu.open .mobile-link:nth-child(1) { transition-delay: .06s; }
+.mobile-menu.open .mobile-link:nth-child(2) { transition-delay: .12s; }
+.mobile-menu.open .mobile-link:nth-child(3) { transition-delay: .18s; }
+.mobile-menu.open .mobile-link:nth-child(4) { transition-delay: .24s; }
+.mobile-menu.open .mobile-link:nth-child(5) { transition-delay: .30s; }
 
 /* Link number badge */
 .mob-num {
@@ -847,8 +849,8 @@ body::after {
    WORK — PROJECT GRID
 ══════════════════════════════════════════════════════════════ */
 .work {
-  padding: clamp(5rem, 10vh, 8rem) clamp(1.5rem, 4vw, 3.5rem);
-  max-width: 1440px; margin: 0 auto;
+  padding: clamp(5rem, 10vh, 8rem) clamp(1rem, 3vw, 2.5rem);
+  max-width: 100%;
 }
 
 .section-header {
@@ -1251,8 +1253,9 @@ body::after {
   border: none; z-index: 5;
 }
 /* Hide play UI once playing */
-.reel-card.playing .reel-play-btn { opacity: 0; pointer-events: none; }
-.reel-card.playing .reel-info     { opacity: 0; }
+.reel-card.playing .reel-play-btn  { opacity: 0; pointer-events: none; transition: none; }
+/* Hide info only while actively playing — show it again when paused */
+.reel-card.is-playing .reel-info  { opacity: 0; }
 
 /* Progress bar drag indicator */
 .reels-scroll-bar {
@@ -1661,10 +1664,18 @@ a.ci-val:hover { color: var(--gold); }
   border: none;
   z-index: 1;
 }
+/* Intercepts taps on the video body — prevents Vimeo's native center overlay */
+.vc-tap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: transparent;
+  cursor: pointer;
+}
 .vc-bar {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   align-items: center;
   gap: .5rem;
@@ -1863,6 +1874,7 @@ a.ci-val:hover { color: var(--gold); }
 
   /* Reel card play button — always fully visible */
   .reel-play-btn { opacity: 1 !important; }
+  .reel-card.playing .reel-play-btn { opacity: 0 !important; pointer-events: none; }
 
   /* Nav toggle — slightly larger */
   .nav-toggle { padding: 10px; }
@@ -2219,3 +2231,9 @@ a.ci-val:hover { color: var(--gold); }
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
+
+/* ── iPad landscape (1024px) — 5 nav links need a tighter gap ───── */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .nav-links { gap: 1.8rem; }
+}
+
