@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VFX & Video Editing Services — Jatin Vishwakarma | Anotha VFX</title>
   <meta name="description" content="Freelance VFX compositing, motion graphics, 3D visual effects, color grading, and video editing services. Available for studios, YouTubers, and brands worldwide.">
-  <link rel="icon" href="../assets/favicon.jpg" type="image/jpeg">
-  <link rel="shortcut icon" href="../assets/favicon.jpg">
-  <link rel="apple-touch-icon" href="../assets/favicon.jpg">
+  <link rel="icon" href="../assets/favicon.png" type="image/png">
+  <link rel="shortcut icon" href="../assets/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/favicon.png">
 
   <!-- ── Open Graph ── -->
   <meta property="og:type"             content="website">
@@ -54,6 +54,148 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/content.js"></script>
+
+  <style>
+    /* ── Service rows ── */
+    .srv-list { width: 100%; }
+
+    .srv-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 40px;
+      align-items: center;
+      gap: 2rem;
+      padding: 2.8rem 0 2.8rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      /* scroll reveal start */
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .srv-row:last-of-type { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .srv-row.srv-visible  { opacity: 1; transform: translateY(0); }
+
+    /* sliding purple hover wash */
+    .srv-row::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(130,60,255,.07) 0%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform .45s ease;
+      pointer-events: none;
+    }
+    .srv-row:hover::before { transform: translateX(0); }
+
+    /* number */
+    .srv-rn {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 3.5vw, 3.2rem);
+      line-height: 1;
+      color: rgba(255,255,255,0.07);
+      letter-spacing: .02em;
+      transition: color .35s;
+      user-select: none;
+    }
+    .srv-row:hover .srv-rn { color: rgba(155,90,255,.55); }
+
+    /* body */
+    .srv-rb { min-width: 0; }
+    .srv-rt {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.55rem, 2.6vw, 2.1rem);
+      letter-spacing: .06em;
+      color: #fff;
+      margin: 0 0 .65rem;
+      transition: color .3s;
+    }
+    .srv-row:hover .srv-rt { color: rgba(190,155,255,1); }
+
+    .srv-rd {
+      font-size: .875rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.42);
+      margin: 0 0 1.1rem;
+      max-width: 600px;
+    }
+    .srv-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+    }
+    .srv-tags span {
+      font-size: .67rem;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.11);
+      padding: .2rem .6rem;
+      border-radius: 2px;
+      color: rgba(255,255,255,0.28);
+      transition: border-color .3s, color .3s;
+    }
+    .srv-row:hover .srv-tags span {
+      border-color: rgba(155,90,255,.35);
+      color: rgba(175,130,255,.8);
+    }
+
+    /* arrow */
+    .srv-ra {
+      opacity: 0;
+      transform: translate(-6px, 6px);
+      transition: opacity .3s, transform .3s;
+      color: rgba(155,90,255,.7);
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: .35rem;
+    }
+    .srv-row:hover .srv-ra { opacity: 1; transform: translate(0,0); }
+
+    /* intro meta row */
+    .srv-meta {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+    }
+    .srv-avail {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .srv-avail-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #3ecf8e;
+      box-shadow: 0 0 6px #3ecf8e;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; } 50% { opacity:.4; }
+    }
+
+    /* SEO paragraph */
+    .srv-seo {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: .78rem;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.17);
+      max-width: 900px;
+    }
+
+    @media (max-width: 600px) {
+      .srv-row { grid-template-columns: 56px 1fr; gap: 1rem; }
+      .srv-ra  { display: none; }
+    }
+  </style>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-99MKQSMXY5"></script>
   <script>
@@ -131,45 +273,86 @@
       <h1 class="page-title">SERVICES</h1>
     </header>
 
-    <div class="about-text-col" style="grid-column:1/-1;max-width:900px;padding:4rem 0 6rem;">
+    <div style="grid-column:1/-1; padding: 2rem 0 8rem;">
 
-      <div class="about-bio" style="margin-bottom:3rem;">
-        <p class="bio-lead">
-          Freelance VFX artist and compositor available for projects worldwide.
+      <!-- intro + availability -->
+      <div class="srv-meta">
+        <p class="bio-lead" style="margin:0; max-width:560px;">
+          Freelance VFX artist and compositor available for projects worldwide —
+          from indie films and YouTube to commercial brands and studios.
         </p>
-        <p class="bio-p">
-          From independent films and YouTube channels to commercial brands and studios —
-          I bring cinematic quality visual effects, motion graphics, and polished video
-          editing to every project, regardless of scale.
-        </p>
+        <div class="srv-avail">
+          <span class="srv-avail-dot"></span>Available for projects
+        </div>
       </div>
 
-      <div class="skills-block">
-        <span class="skills-label">VFX Compositing</span>
-        <p class="bio-p">Green screen keying, rotoscoping, tracking, and seamless integration of 3D elements into live footage. Built for film, commercials, and digital content.</p>
+      <!-- SERVICE ROWS -->
+      <div class="srv-list">
+
+        <div class="srv-row" data-delay="0s">
+          <span class="srv-rn">01</span>
+          <div class="srv-rb">
+            <h2 class="srv-rt">VFX Compositing</h2>
+            <p class="srv-rd">Green screen keying, rotoscoping, tracking, and seamless integration of 3D elements into live footage. Built for film, commercials, and digital content.</p>
+            <div class="srv-tags">
+              <span>After Effects</span><span>Nuke</span><span>Fusion</span>
+            </div>
+          </div>
+          <a href="../contact/" class="srv-ra" aria-label="Get in touch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
+        </div>
+
+        <div class="srv-row" data-delay="0.08s">
+          <span class="srv-rn">02</span>
+          <div class="srv-rb">
+            <h2 class="srv-rt">Motion Graphics</h2>
+            <p class="srv-rd">Animated titles, logo reveals, lower thirds, and full motion graphic sequences. Cinematic and brand-aligned, crafted to fit any production style.</p>
+            <div class="srv-tags">
+              <span>After Effects</span><span>Cinema 4D</span>
+            </div>
+          </div>
+          <a href="../contact/" class="srv-ra" aria-label="Get in touch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
+        </div>
+
+        <div class="srv-row" data-delay="0.16s">
+          <span class="srv-rn">03</span>
+          <div class="srv-rb">
+            <h2 class="srv-rt">3D Visual Effects</h2>
+            <p class="srv-rd">3D modeling, rendering, particle simulations, and procedural effects. Explosions, destruction, environment elements, and photorealistic renders.</p>
+            <div class="srv-tags">
+              <span>Blender</span><span>Cinema 4D</span>
+            </div>
+          </div>
+          <a href="../contact/" class="srv-ra" aria-label="Get in touch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
+        </div>
+
+        <div class="srv-row" data-delay="0.24s">
+          <span class="srv-rn">04</span>
+          <div class="srv-rb">
+            <h2 class="srv-rt">Color Grading</h2>
+            <p class="srv-rd">Professional color grading and finishing using DaVinci Resolve. From flat log footage to a polished cinematic grade that matches your visual intent.</p>
+            <div class="srv-tags">
+              <span>DaVinci Resolve</span>
+            </div>
+          </div>
+          <a href="../contact/" class="srv-ra" aria-label="Get in touch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
+        </div>
+
+        <div class="srv-row" data-delay="0.32s">
+          <span class="srv-rn">05</span>
+          <div class="srv-rb">
+            <h2 class="srv-rt">Video Editing</h2>
+            <p class="srv-rd">Full post-production editing for films, YouTube, ads, and social media. Pacing, sound design, and story-driven cuts that hold attention from first frame to last.</p>
+            <div class="srv-tags">
+              <span>Premiere Pro</span><span>Final Cut Pro</span><span>DaVinci Resolve</span>
+            </div>
+          </div>
+          <a href="../contact/" class="srv-ra" aria-label="Get in touch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
+        </div>
+
       </div>
 
-      <div class="skills-block">
-        <span class="skills-label">Motion Graphics</span>
-        <p class="bio-p">Animated titles, logo reveals, lower thirds, and full motion graphic sequences. Cinematic and brand-aligned, built in After Effects and Cinema 4D.</p>
-      </div>
-
-      <div class="skills-block">
-        <span class="skills-label">3D Visual Effects</span>
-        <p class="bio-p">3D modeling, rendering, particle simulations, and effects built in Blender. Explosions, destruction, environment elements, and photorealistic renders.</p>
-      </div>
-
-      <div class="skills-block">
-        <span class="skills-label">Color Grading</span>
-        <p class="bio-p">Professional color grading and finishing using DaVinci Resolve. From flat log footage to a polished cinematic grade that matches your visual intent.</p>
-      </div>
-
-      <div class="skills-block">
-        <span class="skills-label">Video Editing</span>
-        <p class="bio-p">Full post-production editing for films, YouTube, ads, and social media. Pacing, sound design, and story-driven cuts that hold attention.</p>
-      </div>
-
-      <div class="about-cta" style="margin-top:3rem;">
+      <!-- CTA -->
+      <div class="about-cta" style="margin-top:4rem;">
         <a href="../contact/" class="btn-text">
           Get In Touch
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
@@ -179,6 +362,14 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
         </a>
       </div>
+
+      <!-- SEO -->
+      <p class="srv-seo">
+        Whether you're searching for a freelance VFX artist, a professional compositor for green screen keying and rotoscoping, eye-catching motion graphics for your YouTube channel, realistic 3D visual effects for a film or commercial, or expert cinematic color grading for your short film — Jatin Vishwakarma, known online as Anotha VFX, delivers premium results for studios, independent filmmakers, content creators, YouTubers, and global brands. With deep experience across VFX compositing, After Effects, Blender, Cinema 4D, DaVinci Resolve, Nuke, and end-to-end post-production workflows, Anotha VFX is the freelance visual effects artist and video editor you've been looking for — available for remote projects worldwide, any scale, any deadline.
+      </p>
+      <p class="srv-seo" style="margin-top:1.5rem; border-top:none; padding-top:0;">
+        From VFX for music videos, brand advertisements, and social media reels to CGI integration, matte painting, particle simulations, and explosive destruction effects — Anotha VFX covers the full spectrum of visual effects production. Whether you need a freelance video editor for hire, a compositor for tracking shots, a 3D CGI artist for product visualisation, or a specialist in title sequences, opening credits, and lower thirds, Jatin Vishwakarma brings cinematic-grade craft to every frame. Serving clients across India and worldwide, Anotha VFX is an affordable alternative to a full VFX studio — offering the same premium quality, faster turnaround, and direct one-on-one collaboration for YouTube videos, short films, feature films, Instagram reels, TikTok content, corporate videos, and commercial productions of any scale.
+      </p>
 
     </div>
   </div>
@@ -210,5 +401,36 @@
   </footer>
 
   <script src="../js/main.js"></script>
+
+  <script>
+    // ── Staggered scroll reveal for service rows ──────────────────────
+    (function () {
+      var rows = document.querySelectorAll('.srv-row');
+      if (!rows.length) return;
+
+      // When coming back via browser back button (bfcache restore),
+      // reveal everything instantly so the page doesn't stay black
+      function revealAll() {
+        rows.forEach(function (r) {
+          r.style.transitionDelay = '0s';
+          r.classList.add('srv-visible');
+        });
+      }
+      window.addEventListener('pageshow', function (e) {
+        if (e.persisted) revealAll();
+      });
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.style.transitionDelay = e.target.dataset.delay || '0s';
+            e.target.classList.add('srv-visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      rows.forEach(function (r) { io.observe(r); });
+    })();
+  </script>
 </body>
 </html>

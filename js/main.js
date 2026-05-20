@@ -753,6 +753,16 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.style.opacity    = '0';
   }));
 
+  /* When browser restores page from bfcache (back/forward button),
+     the overlay is still black with pointerEvents:all — reset it */
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+      overlay.style.transition    = 'opacity .4s ease';
+      overlay.style.opacity       = '0';
+      overlay.style.pointerEvents = 'none';
+    }
+  });
+
   /* Fade to black on internal navigation */
   document.addEventListener('click', e => {
     const link = e.target.closest('a[href]');
