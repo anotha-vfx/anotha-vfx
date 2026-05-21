@@ -49,11 +49,11 @@ window.SITE = {
    *    → Set localFile: "assets/showreel.mp4"
    * ---------------------------------------------------------------- */
   showreel: {
-    vimeoId:   "1190419545",                    // e.g.  "123456789"
+    vimeoId:   "1194482437",                    // e.g.  "123456789"
     youtubeId: "",                    // e.g.  "dQw4w9WgXcQ"
     localFile: "", // fallback if above are blank ""assets/showreel.mp4""
     poster:    "assets/showreel-poster.jpg",
-    year:      "2025",
+    year:      "2026",
   },
 
   /* ----------------------------------------------------------------
