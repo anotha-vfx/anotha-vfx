@@ -2251,3 +2251,80 @@ a.ci-val:hover { color: var(--gold); }
   .nav-links { gap: 1.8rem; }
 }
 
+/* ================================================================
+   GALAXY BACKGROUND — LEGIBILITY PANELS
+   Semi-transparent dark boxes keep text readable over the starfield.
+   Color: near-black glass (rgba 5,5,5 / 0.88) complements #f0f0f0 text.
+   ================================================================ */
+
+/* ── Shared panel finish ──────────────────────────────────────── */
+.about-text-col,
+.srv-meta,
+.srv-list,
+.review-form-wrap,
+.contact-info-col,
+.contact-form-col,
+.footer {
+  background: rgba(5,5,5,0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Bordered rounded panels ──────────────────────────────────── */
+.about-text-col,
+.srv-meta,
+.srv-list,
+.review-form-wrap,
+.contact-info-col,
+.contact-form-col {
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+}
+
+/* ── About — right text column ────────────────────────────────── */
+.about-text-col {
+  padding: 2rem 2.5rem;
+}
+
+/* ── Services — intro row ─────────────────────────────────────── */
+.srv-meta {
+  padding: 1.5rem 2rem;
+}
+
+/* ── Services — rows list ─────────────────────────────────────── */
+.srv-list {
+  overflow: hidden;   /* clips row backgrounds to rounded corners  */
+  margin-top: 1.5rem;
+}
+
+/* ── Reviews — submit form ────────────────────────────────────── */
+.review-form-wrap {
+  padding:    2rem 2rem 2.5rem;   /* overrides base padding-top     */
+  margin-top: clamp(2rem,4vh,3rem); /* replaces the old spacing gap  */
+}
+
+/* ── Contact — both columns ───────────────────────────────────── */
+.contact-info-col,
+.contact-form-col {
+  padding: 2rem 2.5rem;
+}
+
+/* ── Footer — full-width strip ────────────────────────────────── */
+.footer {
+  background: rgba(5,5,5,0.92); /* slightly more opaque at the bottom */
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── Mobile tweaks ────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .contact-info-col,
+  .contact-form-col { padding: 1.8rem 2rem; }
+}
+@media (max-width: 600px) {
+  .about-text-col               { padding: 1.5rem; }
+  .srv-meta                     { padding: 1.2rem 1.4rem; }
+  .review-form-wrap             { padding: 1.5rem 1.2rem 2rem; }
+  .contact-info-col,
+  .contact-form-col             { padding: 1.5rem; }
+}
+

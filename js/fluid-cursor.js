@@ -1,21 +1,20 @@
 /* fluid-cursor.js — WebGL fluid simulation cursor
    Ported from SplashCursor (React Bits) to vanilla JS.
-   COLOR=#A855F7, RAINBOW_MODE=false, SHADING=true */
+   COLOR: #A855F7 on homepage, #ffffff on all inner pages. RAINBOW_MODE=false, SHADING=true */
 (function () {
   'use strict';
 
   // ── Canvas ──────────────────────────────────────────────────────────────
-  // Lift interactive elements above the fluid canvas (z-index:0).
-  // Only target plain HTML elements — never override position on .nav etc.
+  // Lift interactive elements above fluid (z-index:1) and LightPillar (z-index:0)
   var _s = document.createElement('style');
-  _s.textContent = 'a,button,input,textarea,select,label{position:relative;z-index:1;}';
+  _s.textContent = 'a,button,input,textarea,select,label{position:relative;z-index:2;}';
   document.head.appendChild(_s);
 
   var canvas = document.createElement('canvas');
   canvas.id = 'fluid';
   canvas.style.cssText =
     'position:fixed;top:0;left:0;width:100vw;height:100vh;' +
-    'pointer-events:none;z-index:0;display:block;';
+    'pointer-events:none;z-index:1;display:block;';
   document.body.appendChild(canvas);
 
   var animationFrameId = null;
@@ -35,15 +34,18 @@
     this.color = [0, 0, 0];
   }
 
+  // ── Mobile detection ────────────────────────────────────────────────────
+  var _isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
   // ── Config ──────────────────────────────────────────────────────────────
   var config = {
-    SIM_RESOLUTION:       128,
-    DYE_RESOLUTION:       1440,
+    SIM_RESOLUTION:       _isMobile ? 64  : 128,
+    DYE_RESOLUTION:       _isMobile ? 512 : 1440,
     CAPTURE_RESOLUTION:   512,
     DENSITY_DISSIPATION:  3.5,
     VELOCITY_DISSIPATION: 2,
     PRESSURE:             0.1,
-    PRESSURE_ITERATIONS:  20,
+    PRESSURE_ITERATIONS:  _isMobile ? 10  : 20,
     CURL:                 3,
     SPLAT_RADIUS:         0.2,
     SPLAT_FORCE:          6000,
@@ -52,7 +54,10 @@
     BACK_COLOR:           { r: 0, g: 0, b: 0 },
     TRANSPARENT:          true,
     RAINBOW_MODE:         false,
-    COLOR:                '#A855F7'
+    COLOR:                (function(){
+      var p = window.location.pathname;
+      return /\/(about|services|reviews|contact)(\/|$)/.test(p) ? '#ffffff' : '#A855F7';
+    }())
   };
 
   var pointers = [new pointerPrototype()];
@@ -604,17 +609,22 @@
 
   var lastUpdateTime  = Date.now();
   var colorUpdateTimer = 0.0;
+  var _frameDur = _isMobile ? 1000 / 30 : 0; // 30fps cap on mobile, uncapped on desktop
 
   // ── Main loop ──────────────────────────────────────────────────────────────
   function updateFrame() {
     if (!isActive) return;
+    animationFrameId = requestAnimationFrame(updateFrame);
+    if (_isMobile) {
+      var _now = Date.now();
+      if (_now - lastUpdateTime < _frameDur) return;
+    }
     var dt = calcDeltaTime();
     if (resizeCanvas()) initFramebuffers();
     updateColors(dt);
     applyInputs();
     step(dt);
     render(null);
-    animationFrameId = requestAnimationFrame(updateFrame);
   }
 
   function calcDeltaTime() {
