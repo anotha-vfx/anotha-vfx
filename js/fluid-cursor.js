@@ -607,24 +607,31 @@
   updateKeywords();
   initFramebuffers();
 
-  var lastUpdateTime  = Date.now();
+  var lastUpdateTime   = Date.now();
   var colorUpdateTimer = 0.0;
-  var _frameDur = _isMobile ? 1000 / 30 : 0; // 30fps cap on mobile, uncapped on desktop
+  var _mobileLastFrame = 0; // separate tracker — never touches lastUpdateTime
 
   // ── Main loop ──────────────────────────────────────────────────────────────
   function updateFrame() {
     if (!isActive) return;
-    animationFrameId = requestAnimationFrame(updateFrame);
+
+    // 30fps cap on mobile only — desktop always runs uncapped
     if (_isMobile) {
       var _now = Date.now();
-      if (_now - lastUpdateTime < _frameDur) return;
+      if (_now - _mobileLastFrame < 33) {
+        animationFrameId = requestAnimationFrame(updateFrame);
+        return;
+      }
+      _mobileLastFrame = _now;
     }
+
     var dt = calcDeltaTime();
     if (resizeCanvas()) initFramebuffers();
     updateColors(dt);
     applyInputs();
     step(dt);
     render(null);
+    animationFrameId = requestAnimationFrame(updateFrame);
   }
 
   function calcDeltaTime() {
