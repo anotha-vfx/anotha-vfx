@@ -4,6 +4,9 @@
 (function () {
   'use strict';
 
+  // No fluid simulation on mobile — skip entirely
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) return;
+
   // ── Canvas ──────────────────────────────────────────────────────────────
   // Lift interactive elements above fluid (z-index:1) and LightPillar (z-index:0)
   var _s = document.createElement('style');
