@@ -84,7 +84,6 @@
   // ── Playhead: auto-crawl + drag to scrub ──────────────────────────────
   var pct       = 0;        // 0..1 position
   var dragging  = false;
-  var hovering  = false;
   var rafId     = null;
   var lastTs    = null;
 
@@ -114,7 +113,7 @@
     if (lastTs === null) { lastTs = ts; return; }
     var dt = (ts - lastTs) / 1000;
     lastTs = ts;
-    if (dragging || hovering) return;
+    if (dragging) return;
     pct += dt / SEQ_SECONDS;         // real-time crawl, loops each "minute"
     if (pct >= 1) pct = 0;
     render();
@@ -141,23 +140,21 @@
     render();
   }
 
-  playhead.addEventListener('pointerdown', function (e) {
-    dragging = true;
-    playhead.setPointerCapture(e.pointerId);
-    e.preventDefault();
-  });
-  playhead.addEventListener('pointermove', function (e) {
-    if (dragging) scrubTo(e.clientX);
-  });
-  playhead.addEventListener('pointerup',     function () { dragging = false; });
-  playhead.addEventListener('pointercancel', function () { dragging = false; });
-
-  // click anywhere on the ruler to jump
-  ruler.addEventListener('pointerdown', function (e) { scrubTo(e.clientX); });
-
-  // pause the crawl while the user is exploring clips
-  nle.addEventListener('mouseenter', function () { hovering = true;  });
-  nle.addEventListener('mouseleave', function () { hovering = false; lastTs = null; });
+  function startDrag(el) {
+    el.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      el.setPointerCapture(e.pointerId);
+      scrubTo(e.clientX);
+      e.preventDefault();
+    });
+    el.addEventListener('pointermove', function (e) {
+      if (dragging) scrubTo(e.clientX);
+    });
+    el.addEventListener('pointerup',     function () { dragging = false; });
+    el.addEventListener('pointercancel', function () { dragging = false; });
+  }
+  startDrag(playhead);  // grab the playhead (generous hit area via CSS)
+  startDrag(ruler);     // or click/drag anywhere on the ruler to jump + scrub
 
   window.addEventListener('resize', render, { passive: true });
   render();
