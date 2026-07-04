@@ -49,6 +49,31 @@ function pauseAllPlayers(exceptPlayer) {
 
 /* Stop all audio when user presses home / switches app.
    Both events used: visibilitychange (standard) + pagehide (iOS) */
+/* ── Theater mode — dim the page while a video plays ─────────── */
+var theaterHost = null;
+function theaterOn(el) {
+  var dim = document.getElementById('theaterDim');
+  if (!dim) {
+    dim = document.createElement('div');
+    dim.id = 'theaterDim';
+    document.body.appendChild(dim);
+  }
+  if (theaterHost) theaterHost.classList.remove('theater-active');
+  theaterHost = el ? el.closest('.showreel-player, .reel-card, .project-media') : null;
+  if (theaterHost) {
+    theaterHost.classList.add('theater-active');
+    requestAnimationFrame(function() { dim.classList.add('on'); });
+  }
+}
+function theaterOff(el) {
+  var host = el ? el.closest('.showreel-player, .reel-card, .project-media') : null;
+  if (host && host !== theaterHost) return; /* a newer video owns the dim */
+  var dim = document.getElementById('theaterDim');
+  if (dim) dim.classList.remove('on');
+  if (theaterHost) theaterHost.classList.remove('theater-active');
+  theaterHost = null;
+}
+
 function onPageHide() {
   vcPlayers.forEach(forceStopEntry);
   /* Catch any Vimeo iframes not yet in our registry (e.g. YouTube
@@ -190,8 +215,10 @@ function buildVimeoEmbed(vimeoId, landscape) {
       iPlay.style.display = 'none';
       iPause.style.display = '';
       pauseAllPlayers(player); /* belt-and-suspenders: stop others on play too */
+      theaterOn(wrap);
     });
-    player.on('pause', function() { iPlay.style.display = '';     iPause.style.display = 'none'; });
+    player.on('pause', function() { iPlay.style.display = '';     iPause.style.display = 'none'; theaterOff(wrap); });
+    player.on('ended', function() { theaterOff(wrap); });
     player.on('volumechange', function(d) {
       var off = d.muted || d.volume === 0;
       iVol.style.display   = off ? 'none' : '';
@@ -981,3 +1008,62 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 }); /* end DOMContentLoaded — dynamic enhancements */
+
+/* ================================================================
+   BOOKING — availability slots badge + Calendly call button
+   Configured in js/content.js → SITE.booking
+   ================================================================ */
+document.addEventListener('DOMContentLoaded', function () {
+  var cfg = (window.SITE && window.SITE.booking) || null;
+  if (!cfg) return;
+
+  /* ── 1. Slots-left badges (replaces "Available for projects") ── */
+  var slots = cfg.slotsLeft;
+  var month = cfg.slotsMonth;
+
+  /* "auto": month from today's date; slot count seeded by the month
+     so it's 2–5, looks organic, and stays stable all month long */
+  if (slots === 'auto') {
+    var now  = new Date();
+    var seed = now.getFullYear() * 12 + now.getMonth();
+    slots = 2 + (seed * 2654435761) % 4;
+    month = ['January','February','March','April','May','June','July',
+             'August','September','October','November','December'][now.getMonth()];
+  }
+
+  if (typeof slots === 'number' && slots >= 0) {
+    var full = slots === 0;
+    var txt  = full
+      ? 'Fully booked for ' + month
+      : slots + (slots === 1 ? ' slot' : ' slots') + ' left for ' + month;
+
+    document.querySelectorAll('.hero-avail, .mob-avail, .srv-avail, .contact-avail')
+      .forEach(function (el) {
+        var dot = el.querySelector(
+          '.hero-avail-dot, .mob-avail-dot, .srv-avail-dot, .avail-dot');
+        el.textContent = '';
+        if (dot) el.appendChild(dot);
+        el.appendChild(document.createTextNode(txt));
+        if (full) el.classList.add('avail-full');
+      });
+  }
+
+  /* ── 2. "Book a free call" button on the Contact page ────────── */
+  if (cfg.calendlyUrl) {
+    var avail = document.querySelector('.contact-avail');
+    if (avail && avail.parentNode) {
+      var btn = document.createElement('a');
+      btn.className = 'call-btn';
+      btn.href      = cfg.calendlyUrl;
+      btn.target    = '_blank';
+      btn.rel       = 'noopener noreferrer';
+      btn.innerHTML =
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" ' +
+        'stroke="currentColor" stroke-width="1.5">' +
+        '<rect x="3" y="4" width="18" height="18" rx="2"/>' +
+        '<path d="M16 2v4M8 2v4M3 10h18"/></svg>' +
+        'Book a free 30-min call';
+      avail.parentNode.insertBefore(btn, avail.nextSibling);
+    }
+  }
+});

@@ -31,6 +31,27 @@ window.SITE = {
   ],
 
   /* ----------------------------------------------------------------
+   * BOOKING  (availability slots + free call button)
+   *
+   *  slotsLeft:  "auto" → fully automatic: month name comes from
+   *              today's date, slot count is picked from 2–5 and
+   *              stays the same for the whole month. Zero upkeep.
+   *              Or set manually:
+   *              2  → "2 slots left for July"
+   *              0  → "Fully booked for July" (dot turns red)
+   *              -1 → feature off, badges show the normal
+   *                   "Available for projects" text
+   *  slotsMonth: month name — only used when slotsLeft is a number
+   *  calendlyUrl: your Calendly link for the "Book a free call"
+   *               button on the Contact page. "" hides the button.
+   * ---------------------------------------------------------------- */
+  booking: {
+    slotsLeft:   "auto",
+    slotsMonth:  "July",
+    calendlyUrl: "https://calendly.com/anotha-vfx/30min",
+  },
+
+  /* ----------------------------------------------------------------
    * SHOWREEL  (the large video section below the hero)
    *
    *  Pick ONE option and fill it in — leave the others blank "":
