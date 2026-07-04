@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Reviews — Jatin Vishwakarma | Anotha VFX</title>
   <meta name="description" content="Reviews and testimonials for Jatin Vishwakarma — Freelance VFX Artist & Compositor. See what clients say about working with Anotha VFX.">
   <link rel="icon" href="../assets/favicon.png" type="image/png">
@@ -205,16 +206,22 @@
 
   <script>
     // ── Build reviews grid from data.js ─────────────────────────────
+    // esc() neutralises any HTML pasted into data.js review fields
+    const esc = s => String(s).replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
     const grid = document.getElementById('reviewsPageGrid');
     if (grid && typeof REVIEWS !== 'undefined') {
-      grid.innerHTML = REVIEWS.map(r => `
+      grid.innerHTML = REVIEWS.map(r => {
+        const stars = Math.max(0, Math.min(5, r.stars | 0));
+        return `
         <div class="review-page-card">
-          <div class="rpc-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
-          <p class="rpc-text">${r.text}</p>
-          <div class="rpc-author">${r.name}</div>
-          <div class="rpc-role">${r.role}</div>
+          <div class="rpc-stars">${'★'.repeat(stars)}${'☆'.repeat(5 - stars)}</div>
+          <p class="rpc-text">${esc(r.text)}</p>
+          <div class="rpc-author">${esc(r.name)}</div>
+          <div class="rpc-role">${esc(r.role)}</div>
         </div>
-      `).join('');
+      `;
+      }).join('');
     }
 
     // ── Interactive star picker ──────────────────────────────────────
