@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>Freelance VFX Artist & Compositor — Jatin Vishwakarma | Anotha VFX</title>
-  <meta name="description" content="Freelance VFX artist & compositor crafting cinematic visuals, frame by frame.">
+  <title>Anotha VFX — Indie VFX Studio & Freelance VFX Artist | Jatin Vishwakarma</title>
+  <meta name="description" content="Anotha VFX is the indie VFX studio of Jatin Vishwakarma — freelance VFX artist, compositor & video editor for films, brands and creators worldwide.">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="shortcut icon" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
@@ -13,8 +13,8 @@
   <!-- ── Open Graph (WhatsApp, Discord, Facebook, LinkedIn) ── -->
   <meta property="og:type"        content="website">
   <meta property="og:site_name"   content="Anotha VFX">
-  <meta property="og:title"       content="Freelance VFX Artist & Compositor — Jatin Vishwakarma | Anotha VFX">
-  <meta property="og:description" content="Freelance VFX artist & compositor crafting cinematic visuals, frame by frame.">
+  <meta property="og:title"       content="Anotha VFX — Indie VFX Studio & Freelance VFX Artist | Jatin Vishwakarma">
+  <meta property="og:description" content="Anotha VFX is the indie VFX studio of Jatin Vishwakarma — freelance VFX artist, compositor & video editor for films, brands and creators worldwide.">
   <meta property="og:image"            content="https://anotha-vfx.github.io/anotha-vfx/assets/anothavfx.jpeg">
   <meta property="og:image:secure_url" content="https://anotha-vfx.github.io/anotha-vfx/assets/anothavfx.jpeg">
   <meta property="og:image:type"       content="image/jpeg">
@@ -26,8 +26,8 @@
 
   <!-- ── Twitter / X Card ── -->
   <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="Freelance VFX Artist & Compositor — Jatin Vishwakarma | Anotha VFX">
-  <meta name="twitter:description" content="Freelance VFX artist & compositor crafting cinematic visuals, frame by frame.">
+  <meta name="twitter:title"       content="Anotha VFX — Indie VFX Studio & Freelance VFX Artist | Jatin Vishwakarma">
+  <meta name="twitter:description" content="Anotha VFX is the indie VFX studio of Jatin Vishwakarma — freelance VFX artist, compositor & video editor for films, brands and creators worldwide.">
   <meta name="twitter:image"       content="https://anotha-vfx.github.io/anotha-vfx/assets/anothavfx.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,25 +39,54 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Jatin Vishwakarma",
-    "url": "https://anothavfx.com",
-    "image": "https://anothavfx.com/assets/JATIN.png",
-    "jobTitle": "Freelance VFX Artist & Compositor",
-    "description": "Freelance VFX artist & compositor crafting cinematic visuals, frame by frame.",
-    "knowsAbout": ["Visual Effects", "VFX Compositing", "Motion Graphics", "3D Rendering", "Video Editing", "After Effects", "Blender", "DaVinci Resolve", "Cinema 4D"],
-    "sameAs": ["https://instagram.com/anotha.fw.vfx", "https://www.youtube.com/@anothavfx", "https://www.linkedin.com/in/jatin-vishwakarma-bbb30a3b5/"],
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "VFX & Video Editing Services",
-      "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "VFX Compositing" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Motion Graphics" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "3D Visual Effects" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Color Grading" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Video Editing" } }
-      ]
-    }
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://anothavfx.com/#studio",
+        "name": "Anotha VFX",
+        "alternateName": ["Anotha", "ANOTHA", "ANOTHA VFX", "Anotha FW VFX"],
+        "description": "Indie VFX studio and freelance visual effects services — VFX compositing, motion graphics, 3D visual effects, color grading and video editing for films, brands and creators worldwide.",
+        "url": "https://anothavfx.com",
+        "image": "https://anotha-vfx.github.io/anotha-vfx/assets/anothavfx.jpeg",
+        "logo": "https://anothavfx.com/assets/favicon.png",
+        "founder": { "@id": "https://anothavfx.com/#person" },
+        "areaServed": "Worldwide",
+        "knowsAbout": ["Visual Effects", "VFX Compositing", "Indie VFX Studio", "Motion Graphics", "3D Rendering", "Video Editing", "Color Grading"],
+        "sameAs": ["https://instagram.com/anotha.fw.vfx", "https://www.youtube.com/@anothavfx", "https://www.linkedin.com/in/jatin-vishwakarma-bbb30a3b5/"],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "VFX & Video Editing Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "VFX Compositing" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Motion Graphics" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "3D Visual Effects" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Color Grading" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Video Editing" } }
+          ]
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://anothavfx.com/#person",
+        "name": "Jatin Vishwakarma",
+        "alternateName": ["Anotha", "Anotha VFX"],
+        "url": "https://anothavfx.com/about/",
+        "image": "https://anothavfx.com/assets/JATIN.png",
+        "jobTitle": "Freelance VFX Artist & Compositor",
+        "worksFor": { "@id": "https://anothavfx.com/#studio" },
+        "description": "Freelance VFX artist, compositor and video editor known online as Anotha VFX.",
+        "knowsAbout": ["Visual Effects", "VFX Compositing", "Motion Graphics", "3D Rendering", "Video Editing", "After Effects", "Blender", "DaVinci Resolve", "Cinema 4D"],
+        "sameAs": ["https://instagram.com/anotha.fw.vfx", "https://www.youtube.com/@anothavfx", "https://www.linkedin.com/in/jatin-vishwakarma-bbb30a3b5/"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://anothavfx.com/#website",
+        "name": "Anotha VFX",
+        "alternateName": "Anotha",
+        "url": "https://anothavfx.com",
+        "publisher": { "@id": "https://anothavfx.com/#studio" }
+      }
+    ]
   }
   </script>
   <!-- Google Analytics -->
