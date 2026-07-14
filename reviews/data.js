@@ -73,4 +73,12 @@ const REVIEWS = [
     stars: 4
   },
 
+    // -- Review 7 __
+  {
+    text: "We worked with Anotha with our horror short film: THE HOLLOW HOUSE. Super content with the results/ attention to detail. The best part with working with him were his communication and reliability especially within a small time frame. Will definitely be working with him again in the future and looking forward to see his future works. 10/10.",
+    name: "Russell Payet",
+    role: "Filmmaker — The Hollow House",
+    stars: 5
+  },
+
 ];
