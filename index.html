@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=5">
   <!-- content.js only used for showreel embed logic -->
   <script src="js/content.js?v=3"></script>
   <!-- Schema markup -->
@@ -198,32 +198,32 @@
     <!-- Floating availability badge -->
     <div class="hero-avail">
       <span class="hero-avail-dot"></span>
-      Available for new projects
+      <!--e:home.avail-->Available for new projects<!--/e:home.avail-->
     </div>
 
     <div class="hero-content" id="heroContent">
       <div class="hero-left">
 
         <!-- Role badge -->
-        <div class="hero-role">Freelance VFX Artist &nbsp;·&nbsp; Compositor &nbsp;·&nbsp; Video Editor</div>
+        <div class="hero-role"><!--e:home.role-->Freelance VFX Artist &nbsp;·&nbsp; Compositor &nbsp;·&nbsp; Video Editor<!--/e:home.role--></div>
 
         <!-- Name — edit brand.firstName / brand.lastName in content.js -->
         <h1 class="hero-title">
-          <span class="hero-name-wrap"><span class="hero-name" style="--i:0">JATIN <span class="hero-name-alias">anotha</span></span></span>
-          <span class="hero-name-wrap"><span class="hero-name" style="--i:1">VISHWAKARMA</span></span>
+          <span class="hero-name-wrap"><span class="hero-name" style="--i:0"><!--e:home.firstName-->JATIN<!--/e:home.firstName--> <span class="hero-name-alias"><!--e:home.alias-->anotha<!--/e:home.alias--></span></span></span>
+          <span class="hero-name-wrap"><span class="hero-name" style="--i:1"><!--e:home.lastName-->VISHWAKARMA<!--/e:home.lastName--></span></span>
         </h1>
 
         <div class="hero-divider"></div>
-        <p class="hero-tagline">Crafting cinematic worlds, frame by frame.</p>
+        <p class="hero-tagline"><!--e:home.tagline-->Crafting cinematic worlds, frame by frame.<!--/e:home.tagline--></p>
 
         <!-- Skill chips — edit freely -->
-        <div class="hero-chips">
+        <div class="hero-chips"><!--e:home.chips-->
           <span class="hero-chip">After Effects</span>
           <span class="hero-chip">Blender</span>
           <span class="hero-chip">DaVinci Resolve</span>
           <span class="hero-chip">Cinema 4D</span>
           <span class="hero-chip">VFX Compositing</span>
-        </div>
+        <!--/e:home.chips--></div>
 
       </div>
 
@@ -232,7 +232,7 @@
 
         <!-- CTA button — sits at top of right column, in line with name -->
         <a href="contact/" class="hero-cta-btn">
-          Hire Anotha
+          <!--e:home.ctaBtn-->Hire Anotha<!--/e:home.ctaBtn-->
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.5">
             <path d="M7 17L17 7M17 7H7M17 7V17"/>
@@ -267,7 +267,7 @@
        TICKER
   ══════════════════════════════════════════ -->
   <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker">
+    <div class="ticker"><!--e:home.ticker-->
       <span>VFX Compositing</span><span class="sep">·</span>
       <span>Motion Graphics</span><span class="sep">·</span>
       <span>3D Visual Effects</span><span class="sep">·</span>
@@ -285,7 +285,7 @@
       <span>Blender</span><span class="sep">·</span>
       <span>After Effects</span><span class="sep">·</span>
       <span>Particle FX</span><span class="sep">·</span>
-    </div>
+    <!--/e:home.ticker--></div>
   </div>
 
   <!-- ══════════════════════════════════════════
@@ -295,10 +295,10 @@
 
     <div class="showreel-header">
       <div>
-        <span class="showreel-eyebrow">Showreel</span>
-        <h2 class="showreel-title">ANOTHA VFX</h2>
+        <span class="showreel-eyebrow"><!--e:home.showreelEyebrow-->Showreel<!--/e:home.showreelEyebrow--></span>
+        <h2 class="showreel-title"><!--e:home.showreelTitle-->ANOTHA VFX<!--/e:home.showreelTitle--></h2>
       </div>
-      <span class="showreel-year">2025</span>
+      <span class="showreel-year"><!--e:home.showreelYear-->2025<!--/e:home.showreelYear--></span>
     </div>
 
     <!--
@@ -335,8 +335,8 @@
 
     <div class="reels-header">
       <div>
-        <span class="section-label">Short Form</span>
-        <h2 class="section-title">Reels</h2>
+        <span class="section-label"><!--e:home.reelsLabel-->Short Form<!--/e:home.reelsLabel--></span>
+        <h2 class="section-title"><!--e:home.reelsTitle-->Reels<!--/e:home.reelsTitle--></h2>
       </div>
       <span class="reels-hint">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -349,89 +349,7 @@
     <!-- Horizontal scroll track -->
     <div class="reels-track-wrap">
       <div class="reels-track" id="reelsTrack">
-
-        <!-- REEL 01 — set data-vimeo or data-youtube to your video ID -->
-        <div class="reel-card"
-             data-vimeo="1190436345"
-             data-youtube=""
-             style="--reel-bg: linear-gradient(160deg,#12002a,#3d0066,#1a0035)">
-          <div class="reel-bg"></div>
-          <div class="reel-overlay"></div>
-          <div class="reel-play-btn">
-            <div class="reel-play-circle">
-              <div class="reel-play-icon"></div>
-            </div>
-          </div>
-          <div class="reel-info">
-            <span class="reel-num">01</span>
-            <span class="reel-title">Real Estate</span>
-            <span class="reel-tag">Editing</span>
-          </div>
-        </div>
-
-        <!-- REEL 02 -->
-        <div class="reel-card"
-             data-vimeo="1195672726"
-             data-youtube=""
-             style="--reel-bg: linear-gradient(160deg,#001510,#003322,#001a14)">
-          <div class="reel-bg"></div>
-          <div class="reel-overlay"></div>
-          <div class="reel-play-btn">
-            <div class="reel-play-circle">
-              <div class="reel-play-icon"></div>
-            </div>
-          </div>
-          <div class="reel-info">
-            <span class="reel-num">02</span>
-            <span class="reel-title">Green Screen Action</span>
-            <span class="reel-tag">War Operation VFX</span>
-          </div>
-        </div>
-
-        <!-- REEL 03 -->
-        <div class="reel-card"
-             data-vimeo="1192841105"
-             data-youtube=""
-             style="--reel-bg: linear-gradient(160deg,#100800,#2e1800,#180d00)">
-          <div class="reel-bg"></div>
-          <div class="reel-overlay"></div>
-          <div class="reel-play-btn">
-            <div class="reel-play-circle">
-              <div class="reel-play-icon"></div>
-            </div>
-          </div>
-          <div class="reel-info">
-            <span class="reel-num">03</span>
-            <span class="reel-title">Fast Paced Edits</span>
-            <span class="reel-tag">Editing</span>
-          </div>
-        </div>
-
-        <!-- REEL 04 -->
-        <div class="reel-card"
-             data-vimeo="1192841961"
-             data-youtube=""
-             style="--reel-bg: linear-gradient(160deg,#00101e,#001f3d,#000d1a)">
-          <div class="reel-bg"></div>
-          <div class="reel-overlay"></div>
-          <div class="reel-play-btn">
-            <div class="reel-play-circle">
-              <div class="reel-play-icon"></div>
-            </div>
-          </div>
-          <div class="reel-info">
-            <span class="reel-num">04</span>
-            <span class="reel-title">3D One Piece (Anime)</span>
-            <span class="reel-tag">3D &amp; Environment</span>
-          </div>
-        </div>
-        
-
-        <!-- ─────────────────────────────────────────────────────
-             ADD MORE REELS: copy any .reel-card block above,
-             change the title/tag/gradient/data-vimeo or data-youtube
-        ───────────────────────────────────────────────────── -->
-
+        <!-- Reel cards are rendered by js/videos.js — edit them in ANOTHA Studio -->
       </div>
     </div>
 
@@ -450,8 +368,8 @@
 
     <div class="section-header">
       <div>
-        <span class="section-label">Selected Work</span>
-        <h2 class="section-title">Projects</h2>
+        <span class="section-label"><!--e:home.workLabel-->Selected Work<!--/e:home.workLabel--></span>
+        <h2 class="section-title"><!--e:home.workTitle-->Projects<!--/e:home.workTitle--></h2>
       </div>
       <span class="section-count">04</span>
     </div>
@@ -471,270 +389,8 @@
         Put a short 5-10 second clip in assets/previews/
         Then uncomment the <video> block inside that card.
     -->
-    <div class="projects-grid">
-
-      <!-- PROJECT 01 ─────────────────────────────── -->
-      <article class="project-card"
-               data-vimeo="1190417066"
-               data-youtube="">
-        <div class="project-link">
-          <div class="project-media">
-            <div class="project-bg"
-                 style="background:linear-gradient(135deg,#12002a 0%,#3d0066 50%,#1a0035 100%)"></div>
-            <!-- HOVER PREVIEW — uncomment after adding the file:
-            <video class="project-video" muted loop preload="none">
-              <source src="assets/previews/spiderman.mp4" type="video/mp4">
-            </video> -->
-            <div class="project-cat">VFX Compositing</div>
-            <div class="project-media-overlay">
-              <div class="project-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-meta">
-              <span class="project-num">01</span>
-              <span class="project-year">2026</span>
-            </div>
-            <h3 class="project-title">Passage Monster VFX</h3>
-            <p class="project-desc">Cinematic web-slinging sequence with custom particle systems, compositing, and dynamic lighting.</p>
-            <div class="project-tags">
-              <span class="tag">After Effects</span>
-              <span class="tag">Blender</span>
-              <span class="tag">Compositing</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PROJECT 02 ─────────────────────────────── -->
-      <article class="project-card"
-               data-vimeo="1204691670"
-               data-youtube="">
-        <div class="project-link">
-          <div class="project-media">
-            <div class="project-bg"
-                 style="background:linear-gradient(135deg,#001510 0%,#003322 50%,#001a14 100%)"></div>
-            <!-- HOVER PREVIEW — uncomment after adding the file:
-            <video class="project-video" muted loop preload="none">
-              <source src="assets/previews/horror.mp4" type="video/mp4">
-            </video> -->
-            <div class="project-cat">Atmospheric VFX</div>
-            <div class="project-media-overlay">
-              <div class="project-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-meta">
-              <span class="project-num">02</span>
-              <span class="project-year">2026</span>
-            </div>
-            <h3 class="project-title">Spiderman VFX</h3>
-            <p class="project-desc">Atmospheric New-York City environment with volumetric fog, practical lighting FX, and creature compositing.</p>
-            <div class="project-tags">
-              <span class="tag">Blender</span>
-              <span class="tag">DaVinci Resolve</span>
-              <span class="tag">VFX</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PROJECT 03 ─────────────────────────────── -->
-      <article class="project-card"
-               data-vimeo="1190423583"
-               data-youtube="">
-        <div class="project-link">
-          <div class="project-media">
-            <div class="project-bg"
-                 style="background:linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)"></div>
-            <!-- HOVER PREVIEW — uncomment after adding the file:
-            <video class="project-video" muted loop preload="none">
-              <source src="assets/previews/motion.mp4" type="video/mp4">
-            </video> -->
-            <div class="project-cat">Motion Graphics</div>
-            <div class="project-media-overlay">
-              <div class="project-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-meta">
-              <span class="project-num">03</span>
-              <span class="project-year">2026</span>
-            </div>
-            <h3 class="project-title">Video Editing</h3>
-            <p class="project-desc">Compilation of motion graphics and kinetic typography across film and digital campaigns.</p>
-            <div class="project-tags">
-              <span class="tag">After Effects</span>
-              <span class="tag">Davinci Resolve</span>
-              <span class="tag">Motion</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PROJECT 04 ─────────────────────────────── -->
-      <article class="project-card"
-               data-vimeo="1200580512"
-               data-youtube="">
-        <div class="project-link">
-          <div class="project-media">
-            <div class="project-bg"
-                 style="background:linear-gradient(135deg,#00101e 0%,#001f3d 50%,#000d1a 100%)"></div>
-            <!-- HOVER PREVIEW — uncomment after adding the file:
-            <video class="project-video" muted loop preload="none">
-              <source src="assets/previews/scifi.mp4" type="video/mp4">
-            </video> -->
-            <div class="project-cat">3D &amp; Environment</div>
-            <div class="project-media-overlay">
-              <div class="project-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-meta">
-              <span class="project-num">04</span>
-              <span class="project-year">2026</span>
-            </div>
-            <h3 class="project-title">From bedroom to Subway Metro • VFX compositing</h3>
-            <p class="project-desc">Subway metro composite • Green screen VFX breakdown</p>
-            <div class="project-tags">
-              <span class="tag">After Effects</span>
-              <span class="tag">Davinci Resolve</span>
-              <span class="tag">Blender</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PROJECT 05 ─────────────────────────────── -->
-      <article class="project-card"
-               data-vimeo="1192839854"
-               data-youtube="">
-        <div class="project-link">
-          <div class="project-media">
-            <div class="project-bg"
-                 style="background:linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)"></div>
-            <!-- HOVER PREVIEW — uncomment after adding the file:
-            <video class="project-video" muted loop preload="none">
-              <source src="assets/previews/motion.mp4" type="video/mp4">
-            </video> -->
-            <div class="project-cat">Motion Graphics</div>
-            <div class="project-media-overlay">
-              <div class="project-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-meta">
-              <span class="project-num">05</span>
-              <span class="project-year">2026</span>
-            </div>
-            <h3 class="project-title">Project Hail Mary Recreation</h3>
-            <p class="project-desc">Recreated the Petrova Line reveal from Project Hail Mary (2026) — such an inspiring shot to break down and rebuild.</p>
-            <div class="project-tags">
-              <span class="tag">After Effects</span>
-              <span class="tag">Davinci Resolve</span>
-              <span class="tag">Blender</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PROJECT 06 ─────────────────────────────── -->
-      <article class="project-card"
-               data-vimeo="1190425024"
-               data-youtube="">
-        <div class="project-link">
-          <div class="project-media">
-            <div class="project-bg"
-                 style="background:linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)"></div>
-            <!-- HOVER PREVIEW — uncomment after adding the file:
-            <video class="project-video" muted loop preload="none">
-              <source src="assets/previews/motion.mp4" type="video/mp4">
-            </video> -->
-            <div class="project-cat">Visual Effects</div>
-            <div class="project-media-overlay">
-              <div class="project-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-meta">
-              <span class="project-num">06</span>
-              <span class="project-year">2025</span>
-            </div>
-            <h3 class="project-title">Invisible Effect</h3>
-            <p class="project-desc">Turning a Normal clip into an invisible VFX.</p>
-            <div class="project-tags">
-              <span class="tag">After Effects</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PROJECT 07 ─────────────────────────────── -->
-      <!---<article class="project-card"
-               data-vimeo="1195674070"
-               data-youtube="">
-        <div class="project-link">
-          <div class="project-media">
-            <div class="project-bg"
-                 style="background:linear-gradient(135deg,#00101e 0%,#001f3d 50%,#000d1a 100%)"></div>
-            
-            <div class="project-cat">3D &amp; Environment</div>
-            <div class="project-media-overlay">
-              <div class="project-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-meta">
-              <span class="project-num">07</span>
-              <span class="project-year">2026</span>
-            </div>
-            <h3 class="project-title">From bedroom to battlefield • VFX compositing</h3>
-            <p class="project-desc">Tactical operator composite • Green screen VFX breakdown</p>
-            <div class="project-tags">
-              <span class="tag">After Effects</span>
-              <span class="tag">Davinci Resolve</span>
-              <span class="tag">Blender</span>
-            </div>
-          </div>
-        </div>
-      </article> -->
-
-
+    <div class="projects-grid" id="projectsGrid">
+      <!-- Project cards are rendered by js/videos.js — edit them in ANOTHA Studio -->
     </div><!-- /projects-grid -->
   </section>
 
@@ -769,11 +425,11 @@
   <section class="reviews-marquee-section">
     <div class="reviews-marquee-header">
       <div>
-        <span class="section-label">Client Testimonials</span>
-        <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem)">What Clients Say</h2>
+        <span class="section-label"><!--e:home.reviewsLabel-->Client Testimonials<!--/e:home.reviewsLabel--></span>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem)"><!--e:home.reviewsTitle-->What Clients Say<!--/e:home.reviewsTitle--></h2>
       </div>
       <a href="reviews/" class="btn-text" style="flex-shrink:0">
-        All Reviews
+        <!--e:home.reviewsBtn-->All Reviews<!--/e:home.reviewsBtn-->
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
     </div>
@@ -789,14 +445,14 @@
   ══════════════════════════════════════════ -->
   <section class="about-teaser">
     <div>
-      <span class="at-label">The Artist</span>
-      <h2 class="at-title">Turning ideas<br>into visual reality.</h2>
-      <p class="at-text">
+      <span class="at-label"><!--e:home.teaserLabel-->The Artist<!--/e:home.teaserLabel--></span>
+      <h2 class="at-title"><!--e:home.teaserTitle-->Turning ideas<br>into visual reality.<!--/e:home.teaserTitle--></h2>
+      <p class="at-text"><!--e:home.teaserText-->
         VFX artist and video editor obsessed with cinematic storytelling.
         Every frame is a craft — technical precision meeting raw creativity.
-      </p>
+      <!--/e:home.teaserText--></p>
       <a href="about/" class="btn-text">
-        About Me
+        <!--e:home.teaserBtn-->About Me<!--/e:home.teaserBtn-->
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.5">
           <path d="M7 17L17 7M17 7H7M17 7V17"/>
@@ -818,8 +474,8 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-brand">
-        <span class="footer-name">ANOTHA VFX</span>
-        <p class="footer-tagline">Visual Effects &amp; Video Editing</p>
+        <span class="footer-name"><!--e:home.footerName-->ANOTHA VFX<!--/e:home.footerName--></span>
+        <p class="footer-tagline"><!--e:home.footerTagline-->Visual Effects &amp; Video Editing<!--/e:home.footerTagline--></p>
       </div>
       <nav class="footer-nav">
         <a href="index.html">Work</a>
@@ -862,7 +518,8 @@
   <script src="https://player.vimeo.com/api/player.js"></script>
   <!-- Reviews data — must load before main.js uses REVIEWS -->
   <script src="reviews/data.js"></script>
-  <script src="js/main.js?v=3"></script>
+  <script src="js/videos.js?v=4"></script>
+  <script src="js/main.js?v=5"></script>
 
   <script>
     // Build homepage reviews marquee and animate via Web Animations API

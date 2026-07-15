@@ -1723,6 +1723,59 @@ a.ci-val:hover { color: var(--gold); }
   border-color: rgba(196,164,114,.65);
 }
 .vc-btn svg { display: block; pointer-events: none; }
+
+/* ── Volume: knob slides out when hovering the mute button ── */
+.vc-vol-wrap { display: flex; align-items: center; flex-shrink: 0; }
+.vc-vol {
+  -webkit-appearance: none; appearance: none;
+  width: 0; opacity: 0; margin-left: 0;
+  height: 4px; border-radius: 3px;
+  background: rgba(196,164,114,.3);
+  outline: none; cursor: pointer; pointer-events: none;
+  transition: width .25s var(--ease), opacity .25s, margin-left .25s;
+}
+.vc-vol-wrap:hover .vc-vol,
+.vc-vol:focus {
+  width: 74px; opacity: 1; margin-left: .5rem; pointer-events: auto;
+}
+.vc-vol::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--gold); cursor: pointer;
+  box-shadow: 0 0 6px rgba(196,164,114,.6);
+}
+.vc-vol::-moz-range-thumb {
+  width: 13px; height: 13px; border: none; border-radius: 50%;
+  background: var(--gold); cursor: pointer;
+  box-shadow: 0 0 6px rgba(196,164,114,.6);
+}
+
+/* ── Seek / progress bar — fills the middle of the control bar ── */
+.vc-seek {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; min-width: 60px; height: 4px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--gold) 0%, rgba(196,164,114,.25) 0%);
+  outline: none; cursor: pointer;
+}
+.vc-seek::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--gold); cursor: pointer;
+  box-shadow: 0 0 6px rgba(196,164,114,.6);
+  transition: transform .15s;
+}
+.vc-seek:hover::-webkit-slider-thumb { transform: scale(1.25); }
+.vc-seek::-moz-range-thumb {
+  width: 13px; height: 13px; border: none; border-radius: 50%;
+  background: var(--gold); cursor: pointer;
+  box-shadow: 0 0 6px rgba(196,164,114,.6);
+}
+/* On tiny phones hide the pop-out volume knob (mute button still works);
+   the seek bar stays — it's the useful one */
+@media (max-width: 480px) {
+  .vc-vol-wrap:hover .vc-vol, .vc-vol { width: 0; opacity: 0; margin-left: 0; pointer-events: none; }
+}
 /* Fullscreen button pushed to the far right */
 .vc-fs-btn { margin-left: auto; }
 

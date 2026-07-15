@@ -120,10 +120,14 @@ function buildVimeoEmbed(vimeoId, landscape) {
       '<svg class="icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>' +
       '<svg class="icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>' +
     '</button>' +
-    '<button class="vc-btn vc-mute-btn" aria-label="Mute / Unmute">' +
-      '<svg class="icon-vol" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
-      '<svg class="icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 19L19 20.27 20.27 19 5.27 4 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>' +
-    '</button>' +
+    '<span class="vc-vol-wrap">' +
+      '<button class="vc-btn vc-mute-btn" aria-label="Mute / Unmute">' +
+        '<svg class="icon-vol" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
+        '<svg class="icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 19L19 20.27 20.27 19 5.27 4 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>' +
+      '</button>' +
+      '<input type="range" class="vc-vol" min="0" max="1" step="0.02" value="1" aria-label="Volume">' +
+    '</span>' +
+    '<input type="range" class="vc-seek" min="0" max="100" step="0.1" value="0" aria-label="Seek video">' +
     '<button class="vc-btn vc-fs-btn" aria-label="Fullscreen">' +
       '<svg class="icon-fs" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>' +
       '<svg class="icon-fs-exit" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>' +
@@ -211,6 +215,48 @@ function buildVimeoEmbed(vimeoId, landscape) {
       });
     });
 
+    /* Volume slider (revealed on hover of the mute button — see CSS) */
+    var volSlider = bar.querySelector('.vc-vol');
+    if (volSlider) {
+      volSlider.addEventListener('click', function(e){ e.stopPropagation(); });
+      volSlider.addEventListener('input', function(e) {
+        e.stopPropagation();
+        var vol = parseFloat(volSlider.value);
+        player.setVolume(vol);
+        player.setMuted(vol === 0);
+      });
+    }
+
+    /* Seek / progress bar — drag or click to jump to any point */
+    var seekSlider = bar.querySelector('.vc-seek');
+    var seeking = false;
+    function paintSeek(pct) {
+      if (seekSlider) seekSlider.style.background =
+        'linear-gradient(to right, var(--gold) ' + pct + '%, rgba(196,164,114,.25) ' + pct + '%)';
+    }
+    if (seekSlider) {
+      paintSeek(0);
+      seekSlider.addEventListener('click', function(e){ e.stopPropagation(); });
+      seekSlider.addEventListener('input', function(e) {
+        e.stopPropagation();
+        seeking = true;
+        paintSeek(seekSlider.value);
+      });
+      seekSlider.addEventListener('change', function(e) {
+        e.stopPropagation();
+        player.getDuration().then(function(dur) {
+          player.setCurrentTime((seekSlider.value / 100) * dur).catch(function(){});
+          seeking = false;
+        }).catch(function(){ seeking = false; });
+      });
+      player.on('timeupdate', function(d) {
+        if (seeking) return;
+        var pct = (d.percent || 0) * 100;
+        seekSlider.value = pct;
+        paintSeek(pct);
+      });
+    }
+
     player.on('play',  function() {
       iPlay.style.display = 'none';
       iPause.style.display = '';
@@ -218,12 +264,30 @@ function buildVimeoEmbed(vimeoId, landscape) {
       theaterOn(wrap);
     });
     player.on('pause', function() { iPlay.style.display = '';     iPause.style.display = 'none'; theaterOff(wrap); });
-    player.on('ended', function() { theaterOff(wrap); });
+
+    /* When it finishes: rewind to the start so it can be re-watched with one click */
+    player.on('ended', function() {
+      theaterOff(wrap);
+      player.setCurrentTime(0).catch(function(){});
+      iPlay.style.display = ''; iPause.style.display = 'none';
+    });
+
     player.on('volumechange', function(d) {
       var off = d.muted || d.volume === 0;
       iVol.style.display   = off ? 'none' : '';
       iMuted.style.display = off ? '' : 'none';
+      if (volSlider) volSlider.value = off ? 0 : d.volume;
     });
+
+    /* Scrolled out of view while playing → pause it (also lifts the dark theater dim) */
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(en) {
+          if (!en.isIntersecting) player.getPaused().then(function(p){ if(!p) player.pause(); });
+        });
+      }, { threshold: 0.25 });
+      io.observe(wrap);
+    }
   }, 150);
 
   return wrap;
