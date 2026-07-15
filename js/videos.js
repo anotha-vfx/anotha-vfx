@@ -10,7 +10,7 @@ const PROJECTS = [
     title: "Passage Monster VFX",
     category: "VFX Compositing",
     description: "Cinematic web-slinging sequence with custom particle systems, compositing, and dynamic lighting.",
-    tags: ["After Effects", "Blender", "Compositing"],
+    tags: ["After Effects","Blender","Compositing"],
     gradient: "linear-gradient(135deg,#12002a 0%,#3d0066 50%,#1a0035 100%)",
     year: "2026"
   },
@@ -19,17 +19,17 @@ const PROJECTS = [
     title: "Spiderman VFX",
     category: "Atmospheric VFX",
     description: "Atmospheric New-York City environment with volumetric fog, practical lighting FX, and creature compositing.",
-    tags: ["Blender", "DaVinci Resolve", "VFX"],
+    tags: ["Blender","DaVinci Resolve","VFX"],
     gradient: "linear-gradient(135deg,#001510 0%,#003322 50%,#001a14 100%)",
     year: "2026"
   },
   {
-    vimeo: "1190423583", youtube: "",
-    title: "Video Editing",
-    category: "Motion Graphics",
-    description: "Compilation of motion graphics and kinetic typography across film and digital campaigns.",
-    tags: ["After Effects", "Davinci Resolve", "Motion"],
-    gradient: "linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)",
+    vimeo: "1210216476", youtube: "",
+    title: "The Hollow House",
+    category: "VFX",
+    description: "Making a mad look dead and scary...",
+    tags: ["After Effects"],
+    gradient: "linear-gradient(135deg,#12002a 0%,#3d0066 50%,#1a0035 100%)",
     year: "2026"
   },
   {
@@ -37,7 +37,7 @@ const PROJECTS = [
     title: "From bedroom to Subway Metro • VFX compositing",
     category: "3D & Environment",
     description: "Subway metro composite • Green screen VFX breakdown",
-    tags: ["After Effects", "Davinci Resolve", "Blender"],
+    tags: ["After Effects","Davinci Resolve","Blender"],
     gradient: "linear-gradient(135deg,#00101e 0%,#001f3d 50%,#000d1a 100%)",
     year: "2026"
   },
@@ -46,7 +46,7 @@ const PROJECTS = [
     title: "Project Hail Mary Recreation",
     category: "Motion Graphics",
     description: "Recreated the Petrova Line reveal from Project Hail Mary (2026) — such an inspiring shot to break down and rebuild.",
-    tags: ["After Effects", "Davinci Resolve", "Blender"],
+    tags: ["After Effects","Davinci Resolve","Blender"],
     gradient: "linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)",
     year: "2026"
   },
@@ -58,14 +58,23 @@ const PROJECTS = [
     tags: ["After Effects"],
     gradient: "linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)",
     year: "2025"
+  },
+  {
+    vimeo: "1190423583", youtube: "",
+    title: "Video Editing",
+    category: "Motion Graphics",
+    description: "Compilation of motion graphics and kinetic typography across film and digital campaigns.",
+    tags: ["After Effects","Davinci Resolve","Motion"],
+    gradient: "linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)",
+    year: "2026"
   }
 ];
 
 const REELS = [
-  { vimeo: "1190436345", youtube: "", title: "Real Estate",          tag: "Editing",           gradient: "linear-gradient(160deg,#12002a,#3d0066,#1a0035)" },
-  { vimeo: "1195672726", youtube: "", title: "Green Screen Action",  tag: "War Operation VFX", gradient: "linear-gradient(160deg,#001510,#003322,#001a14)" },
-  { vimeo: "1192841105", youtube: "", title: "Fast Paced Edits",     tag: "Editing",           gradient: "linear-gradient(160deg,#100800,#2e1800,#180d00)" },
-  { vimeo: "1192841961", youtube: "", title: "3D One Piece (Anime)", tag: "3D & Environment",  gradient: "linear-gradient(160deg,#00101e,#001f3d,#000d1a)" }
+  { vimeo: "1190436345", youtube: "", title: "Real Estate", tag: "Editing", gradient: "linear-gradient(160deg,#12002a,#3d0066,#1a0035)" },
+  { vimeo: "1195672726", youtube: "", title: "Green Screen Action", tag: "War Operation VFX", gradient: "linear-gradient(160deg,#001510,#003322,#001a14)" },
+  { vimeo: "1192841105", youtube: "", title: "Fast Paced Edits", tag: "Editing", gradient: "linear-gradient(160deg,#100800,#2e1800,#180d00)" },
+  { vimeo: "1192841961", youtube: "", title: "3D One Piece (Anime)", tag: "3D & Environment", gradient: "linear-gradient(160deg,#00101e,#001f3d,#000d1a)" }
 ];
 
 /* ── Render (runs immediately; containers already parsed above) ── */

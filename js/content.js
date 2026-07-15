@@ -25,15 +25,15 @@ window.SITE = {
    * HERO STATS  (3 numbers shown beneath the name in the hero)
    * ---------------------------------------------------------------- */
   stats: [
-    { value: "4+",  label: "Years"    },
+    { value: "4+", label: "Years" },
     { value: "50+", label: "Projects" },
-    { value: "∞",   label: "Frames"   },
+    { value: "∞", label: "Frames" },
   ],
 
   /* ----------------------------------------------------------------
    * BOOKING  (availability slots + free call button)
    *
-   *  slotsLeft:  "auto" → fully automatic: month name comes from
+   *  slotsLeft:   "auto" → fully automatic: month name comes from
    *              today's date, slot count is picked from 2–5 and
    *              stays the same for the whole month. Zero upkeep.
    *              Or set manually:
@@ -70,7 +70,7 @@ window.SITE = {
    *    → Set localFile: "assets/showreel.mp4"
    * ---------------------------------------------------------------- */
   showreel: {
-    vimeoId:   "1204692839",                    // e.g.  "123456789"
+    vimeoId:   "1210216498",                    // e.g.  "123456789"
     youtubeId: "",                    // e.g.  "dQw4w9WgXcQ"
     localFile: "", // fallback if above are blank ""assets/showreel.mp4""
     poster:    "assets/showreel-poster.jpg",
