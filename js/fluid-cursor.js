@@ -7,6 +7,9 @@
   // No fluid simulation on mobile — skip entirely
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) return;
 
+  // Turned off in ANOTHA Studio → don't run the WebGL sim
+  if (window.FEATURES && window.FEATURES.fluidCursor === false) return;
+
   // ── Canvas ──────────────────────────────────────────────────────────────
   // Lift interactive elements above fluid (z-index:1) and LightPillar (z-index:0)
   var _s = document.createElement('style');

@@ -2034,6 +2034,71 @@ a.ci-val:hover { color: var(--gold); }
 }
 
 /* ================================================================
+   WORKED WITH — CLIENT LOGO STRIP
+   ================================================================ */
+.clients-section {
+  padding: clamp(3rem, 7vh, 5rem) 0;
+  overflow: hidden;
+  position: relative;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+.clients-header {
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem);
+  margin-bottom: clamp(1.6rem, 4vh, 2.5rem);
+}
+.clients-marquee-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.clients-marquee-wrap::before,
+.clients-marquee-wrap::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; width: 90px;
+  z-index: 2; pointer-events: none;
+}
+.clients-marquee-wrap::before { left: 0;  background: linear-gradient(90deg, var(--bg), transparent); }
+.clients-marquee-wrap::after  { right: 0; background: linear-gradient(-90deg, var(--bg), transparent); }
+
+.clients-marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  will-change: transform;
+  padding: .5rem 0;
+}
+.client-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .7rem;
+  flex-shrink: 0;
+  opacity: .55;
+  transition: opacity .35s;
+}
+.client-item:hover { opacity: 1; }
+.client-logo {
+  height: clamp(54px, 7vw, 84px);
+  width: auto; max-width: 240px;
+  object-fit: contain;
+  opacity: .9;                                     /* show the real logo as uploaded */
+  transition: opacity .35s, transform .35s var(--ease-spring);
+}
+.client-item:hover .client-logo {
+  opacity: 1;
+  transform: scale(1.05);
+}
+.client-name {
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .clients-marquee-track { gap: 2.2rem; }
+}
+
+/* ================================================================
    REVIEWS — HOMEPAGE MARQUEE
    ================================================================ */
 .reviews-marquee-section {

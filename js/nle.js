@@ -13,6 +13,11 @@
   var timecode = document.getElementById('nleTimecode');
   if (!nle || !ruler || !trackV1 || !trackV2 || !playhead) return;
 
+  // Turned off in ANOTHA Studio → don't build the timeline
+  if (window.FEATURES && window.FEATURES.timeline === false) {
+    var _s = nle.closest('.nle-section'); if (_s) _s.remove(); return;
+  }
+
   var cards = Array.prototype.slice.call(
     document.querySelectorAll('.projects-grid .project-card')
   );
