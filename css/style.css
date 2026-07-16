@@ -2174,7 +2174,7 @@ a.ci-val:hover { color: var(--gold); }
 }
 .rmc-role {
   font-size: .62rem;
-  color: var(--text-dim);
+  color: rgba(201,169,110,.75);
   letter-spacing: .1em;
   text-transform: uppercase;
 }
