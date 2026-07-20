@@ -85,10 +85,10 @@ const PROJECTS = [
 ];
 
 const REELS = [
-  { vimeo: "1190436345", youtube: "", title: "Real Estate", tag: "Editing", gradient: "linear-gradient(160deg,#12002a,#3d0066,#1a0035)", views: "3786", viewsBase: "", viewsDate: "2026-07-20", viewsRate: "100" },
-  { vimeo: "1195672726", youtube: "", title: "Green Screen Action", tag: "War Operation VFX", gradient: "linear-gradient(160deg,#001510,#003322,#001a14)", views: "3097", viewsBase: "", viewsDate: "2026-07-20", viewsRate: "70" },
-  { vimeo: "1192841105", youtube: "", title: "Fast Paced Edits", tag: "Editing", gradient: "linear-gradient(160deg,#100800,#2e1800,#180d00)", views: "1896", viewsBase: "", viewsDate: "2026-07-20", viewsRate: "100" },
-  { vimeo: "1192841961", youtube: "", title: "3D One Piece (Anime)", tag: "3D & Environment", gradient: "linear-gradient(160deg,#00101e,#001f3d,#000d1a)", views: "2567", viewsBase: "", viewsDate: "2026-07-20", viewsRate: "120" }
+  { vimeo: "1190436345", youtube: "", title: "Real Estate", tag: "Editing", gradient: "linear-gradient(160deg,#12002a,#3d0066,#1a0035)", views: "", viewsBase: "", viewsDate: "", viewsRate: "" },
+  { vimeo: "1195672726", youtube: "", title: "Green Screen Action", tag: "War Operation VFX", gradient: "linear-gradient(160deg,#001510,#003322,#001a14)", views: "", viewsBase: "", viewsDate: "", viewsRate: "" },
+  { vimeo: "1192841105", youtube: "", title: "Fast Paced Edits", tag: "Editing", gradient: "linear-gradient(160deg,#100800,#2e1800,#180d00)", views: "", viewsBase: "", viewsDate: "", viewsRate: "" },
+  { vimeo: "1192841961", youtube: "", title: "3D One Piece (Anime)", tag: "3D & Environment", gradient: "linear-gradient(160deg,#00101e,#001f3d,#000d1a)", views: "", viewsBase: "", viewsDate: "", viewsRate: "" }
 ];
 
 /* ── Render (runs immediately; containers already parsed above) ── */
@@ -110,20 +110,7 @@ const REELS = [
     if (n >= 1000)    return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     return String(n);
   }
-  /* "12.4K" / "1.2M" / "2,989" / "2989"  →  a plain number (NaN if unparseable) */
-  function parseViewNum(s) {
-    s = String(s).trim().replace(/,/g, '');
-    var m = s.match(/^([\d.]+)\s*([KkMm])?$/);
-    if (!m) return NaN;
-    var n = parseFloat(m[1]);
-    if (isNaN(n)) return NaN;
-    var suf = (m[2] || '').toUpperCase();
-    if (suf === 'K') n *= 1000;
-    if (suf === 'M') n *= 1000000;
-    return n;
-  }
-  /* returns { text: what to show, num: the value to count up to } */
-  function viewsInfo(item) {
+  function viewsText(item) {
     var rate = parseFloat(item.viewsRate);
     var base = parseFloat(item.viewsBase);
     if (rate > 0 && !isNaN(base) && item.viewsDate) {
@@ -140,17 +127,10 @@ const REELS = [
           var r = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
           total += rate * (0.85 + r * 0.3);
         }
-        return { text: fmtViews(total), num: total };
+        return fmtViews(total);
       }
     }
-    var t = item.views || '';
-    return { text: t, num: parseViewNum(t) };
-  }
-  /* badge markup + the data the roll-up animation needs */
-  function viewsAttrs(vi) {
-    return isFinite(vi.num)
-      ? ' data-count="' + vi.num + '" data-final="' + esc(vi.text) + '"'
-      : '';
+    return item.views || '';
   }
   var ARROW = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>';
 
@@ -159,12 +139,12 @@ const REELS = [
     grid.innerHTML = PROJECTS.map(function (p, i) {
       var num = String(i + 1).padStart(2, '0');
       var tags = (p.tags || []).map(function (t) { return '<span class="tag">' + esc(t) + '</span>'; }).join('\n              ');
-      var vi = viewsInfo(p);
+      var vtxt = viewsText(p);
       return '<article class="project-card" data-vimeo="' + esc(p.vimeo || '') + '" data-youtube="' + esc(p.youtube || '') + '">' +
         '<div class="project-link"><div class="project-media">' +
           '<div class="project-bg" style="background:' + esc(p.gradient || '') + '"></div>' +
           '<div class="project-cat">' + esc(p.category || '') + '</div>' +
-          (vi.text ? '<div class="view-count"' + viewsAttrs(vi) + '>' + esc(vi.text) + ' views</div>' : '') +
+          (vtxt ? '<div class="view-count">' + esc(vtxt) + ' views</div>' : '') +
           '<div class="project-media-overlay"><div class="project-arrow">' + ARROW + '</div></div>' +
         '</div><div class="project-info">' +
           '<div class="project-meta"><span class="project-num">' + num + '</span><span class="project-year">' + esc(p.year || '') + '</span></div>' +
@@ -179,63 +159,15 @@ const REELS = [
   if (track) {
     track.innerHTML = REELS.map(function (r, i) {
       var num = String(i + 1).padStart(2, '0');
-      var vi = viewsInfo(r);
+      var vtxt = viewsText(r);
       return '<div class="reel-card" data-vimeo="' + esc(r.vimeo || '') + '" data-youtube="' + esc(r.youtube || '') + '" style="--reel-bg: ' + esc(r.gradient || '') + '">' +
         '<div class="reel-bg"></div><div class="reel-overlay"></div>' +
         '<div class="reel-play-btn"><div class="reel-play-circle"><div class="reel-play-icon"></div></div></div>' +
         '<div class="reel-info"><span class="reel-num">' + num + '</span>' +
           '<span class="reel-title">' + esc(r.title || '') + '</span>' +
           '<span class="reel-tag">' + esc(r.tag || '') + '</span>' +
-          (vi.text ? '<span class="reel-views"' + viewsAttrs(vi) + '>' + esc(vi.text) + ' views</span>' : '') + '</div>' +
+          (vtxt ? '<span class="reel-views">' + esc(vtxt) + ' views</span>' : '') + '</div>' +
       '</div>';
     }).join('\n');
   }
-
-  /* ── Roll-up: count from 0 → the number when the card scrolls in ── */
-  (function () {
-    var els = [].slice.call(document.querySelectorAll('[data-count][data-final]'));
-    if (!els.length) return;
-    // No observer support, or the visitor prefers less motion → leave it static
-    if (!('IntersectionObserver' in window)) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    // Count in the SAME format the final value uses (K / M / commas / plain)
-    function formatterFor(txt) {
-      var s = String(txt).trim();
-      if (/[Mm]$/.test(s)) return function (n) { return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'; };
-      if (/[Kk]$/.test(s)) return function (n) { return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K'; };
-      var comma = s.indexOf(',') >= 0;
-      return function (n) { n = Math.round(n); return comma ? n.toLocaleString() : String(n); };
-    }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        var el = en.target;
-        io.unobserve(el);
-        var target = parseFloat(el.getAttribute('data-count'));
-        var finalTxt = el.getAttribute('data-final');
-        if (!isFinite(target)) { el.textContent = finalTxt + ' views'; return; }
-        var fmt = formatterFor(finalTxt), dur = 1500, t0 = null;
-        function step(ts) {
-          if (t0 === null) t0 = ts;
-          var p = Math.min(1, (ts - t0) / dur);
-          var e = 1 - Math.pow(1 - p, 3);              // ease-out
-          if (p < 1) {
-            el.textContent = fmt(target * e) + ' views';
-            requestAnimationFrame(step);
-          } else {
-            el.textContent = finalTxt + ' views';      // land exactly on the real value
-          }
-        }
-        requestAnimationFrame(step);
-      });
-    }, { threshold: 0.35 });
-
-    els.forEach(function (el) {
-      var f = el.getAttribute('data-final');
-      el.textContent = formatterFor(f)(0) + ' views';   // start at zero
-      io.observe(el);
-    });
-  })();
 })();
