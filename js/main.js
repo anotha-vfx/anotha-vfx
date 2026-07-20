@@ -100,6 +100,10 @@ function buildVimeoEmbed(vimeoId, landscape) {
   wrap.className = 'vc-wrap';
 
   var f = document.createElement('iframe');
+  /* dnt=1 = Do Not Track. Vimeo sets NO cookies and collects no session
+     data. Deliberate privacy choice — the cost is that plays through the
+     site are not counted in Vimeo Analytics. Remove it only if you decide
+     you want those stats more than you want a cookie-free site.        */
   f.src = 'https://player.vimeo.com/video/' + vimeoId +
           '?autoplay=1&controls=0&title=0&byline=0&portrait=0' +
           '&playsinline=1&quality=1080p&color=c4a472&dnt=1';
