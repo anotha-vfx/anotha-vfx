@@ -99,7 +99,7 @@ lightbox blur (18px), mobile-menu blur (26px) — all edited there.
 
 ---
 
-## ✨ Hero Watermark ("MS VFX 09", homepage)
+## ✨ Hero Watermark ("MS VFX 97", homepage)
 
 **Text:** `index.html`, search for `hero-ambient`.
 **Size/spacing/visibility:** `css/style.css` → `.hero-ambient` / `.hero-ambient-sub`
