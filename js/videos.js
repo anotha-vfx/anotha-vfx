@@ -6,6 +6,17 @@
 
 const PROJECTS = [
   {
+    vimeo: "1249389624", youtube: "",
+    title: "The Last Door",
+    category: "VFX Short / Horror Compositing",
+    description: "A one-take-style zombie encounter in an abandoned building, with full VFX compositing and custom sound design.",
+    tags: ["After Effects","Davinci Resolve"],
+    gradient: "linear-gradient(135deg,#12002a 0%,#3d0066 50%,#1a0035 100%)",
+    year: "2026",
+    views: "1578",
+    viewsBase: "1578", viewsDate: "2026-11-23", viewsRate: "120"
+  },
+  {
     vimeo: "1190417066", youtube: "",
     title: "Passage Monster VFX",
     category: "VFX Compositing",
@@ -81,17 +92,6 @@ const PROJECTS = [
     year: "2026",
     views: "1554",
     viewsBase: "1554", viewsDate: "2026-07-20", viewsRate: "100"
-  },
-  {
-    vimeo: "1249389624", youtube: "",
-    title: "The Last Door",
-    category: "VFX Short / Horror Compositing",
-    description: "A one-take-style zombie encounter in an abandoned building, with full VFX compositing and custom sound design.",
-    tags: ["After Effects","Davinci Resolve"],
-    gradient: "linear-gradient(135deg,#12002a 0%,#3d0066 50%,#1a0035 100%)",
-    year: "2026",
-    views: "1578",
-    viewsBase: "1578", viewsDate: "2026-11-23", viewsRate: "120"
   }
 ];
 
