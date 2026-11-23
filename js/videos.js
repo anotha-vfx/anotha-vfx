@@ -14,7 +14,7 @@ const PROJECTS = [
     gradient: "linear-gradient(135deg,#12002a 0%,#3d0066 50%,#1a0035 100%)",
     year: "2026",
     views: "2989",
-    viewsBase: "", viewsDate: "2026-07-20", viewsRate: "100"
+    viewsBase: "2989", viewsDate: "2026-07-20", viewsRate: "100"
   },
   {
     vimeo: "1204691670", youtube: "",
@@ -25,7 +25,7 @@ const PROJECTS = [
     gradient: "linear-gradient(135deg,#001510 0%,#003322 50%,#001a14 100%)",
     year: "2026",
     views: "2765",
-    viewsBase: "", viewsDate: "2026-07-20", viewsRate: "98"
+    viewsBase: "2765", viewsDate: "2026-07-20", viewsRate: "98"
   },
   {
     vimeo: "1210216476", youtube: "",
@@ -36,7 +36,7 @@ const PROJECTS = [
     gradient: "linear-gradient(135deg,#12002a 0%,#3d0066 50%,#1a0035 100%)",
     year: "2026",
     views: "2534",
-    viewsBase: "", viewsDate: "2026-07-20", viewsRate: "100"
+    viewsBase: "2534", viewsDate: "2026-07-20", viewsRate: "100"
   },
   {
     vimeo: "1200580512", youtube: "",
@@ -47,7 +47,7 @@ const PROJECTS = [
     gradient: "linear-gradient(135deg,#00101e 0%,#001f3d 50%,#000d1a 100%)",
     year: "2026",
     views: "2346",
-    viewsBase: "", viewsDate: "2026-07-20", viewsRate: "98"
+    viewsBase: "2346", viewsDate: "2026-07-20", viewsRate: "98"
   },
   {
     vimeo: "1192839854", youtube: "",
@@ -58,7 +58,7 @@ const PROJECTS = [
     gradient: "linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)",
     year: "2026",
     views: "2178",
-    viewsBase: "", viewsDate: "2026-07-20", viewsRate: "100"
+    viewsBase: "2178", viewsDate: "2026-07-20", viewsRate: "100"
   },
   {
     vimeo: "1190425024", youtube: "",
@@ -69,7 +69,7 @@ const PROJECTS = [
     gradient: "linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)",
     year: "2025",
     views: "1896",
-    viewsBase: "", viewsDate: "2026-07-20", viewsRate: "100"
+    viewsBase: "1896", viewsDate: "2026-07-20", viewsRate: "100"
   },
   {
     vimeo: "1190423583", youtube: "",
@@ -80,7 +80,18 @@ const PROJECTS = [
     gradient: "linear-gradient(135deg,#100800 0%,#2e1800 50%,#180d00 100%)",
     year: "2026",
     views: "1554",
-    viewsBase: "", viewsDate: "2026-07-20", viewsRate: "100"
+    viewsBase: "1554", viewsDate: "2026-07-20", viewsRate: "100"
+  },
+  {
+    vimeo: "1249389624", youtube: "",
+    title: "The Last Door",
+    category: "VFX Short / Horror Compositing",
+    description: "A one-take-style zombie encounter in an abandoned building, with full VFX compositing and custom sound design.",
+    tags: ["After Effects","Davinci Resolve"],
+    gradient: "linear-gradient(135deg,#12002a 0%,#3d0066 50%,#1a0035 100%)",
+    year: "2026",
+    views: "1578",
+    viewsBase: "1578", viewsDate: "2026-11-23", viewsRate: "120"
   }
 ];
 
